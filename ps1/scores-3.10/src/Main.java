@@ -7,14 +7,14 @@ public class Main {
 
     public static void main(String[] args) {
         // Initialize the spreadsheet / table
-        double[] row0 = {70.0, 80.0, 90.0};  // 240
-        double[] row1 = {100.0, 70.0, 90.0}; // 260
-        double[] row2 = {60.0, 70.0, 80.0};  // 210
-        double[] row3 = {100.0, 90.0, 90.0}; // 280
+        double[] row0 = { 70.0, 80.0, 90.0 };  // 240
+        double[] row1 = { 100.0, 70.0, 90.0 }; // 260
+        double[] row2 = { 60.0, 70.0, 80.0 };  // 210
+        double[] row3 = { 100.0, 90.0, 90.0 }; // 280
 
         double[][] table = new double[][]{row0, row1, row2, row3};
 
-        // Initialize output arrays
+        // Create output arrays
         double[] rowTotal = new double[R];
         double[] colTotal = new double[C];
         double[] colAverage = new double[C];
@@ -24,7 +24,7 @@ public class Main {
             // Loop through all the columns (classes)
             for (int col = 0; col < C; col++) {
                 double grade = table[row][col];
-                System.out.format("Value[%d][%s]=%f\n", row, col, grade);
+                System.out.format("Grade[%d][%d]=%f\n", row, col, grade);
                 // Add the grade (value in the current row /column) to the total for the current row
                 rowTotal[row] += grade;
                 // Add the grade (value in the current row / column) to the total for the current col

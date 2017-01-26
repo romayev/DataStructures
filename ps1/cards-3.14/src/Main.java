@@ -14,14 +14,17 @@ public class Main {
     private static int[] cards = new int[TOTAL_CARDS];
 
     public static void main(String[] args) {
+        System.out.println("Creating deck...");
         createDeck();
         System.out.println(Arrays.toString(cards));
 
+        System.out.println("Shuffling...");
         shuffle();
         System.out.println(Arrays.toString(cards));
 
+        System.out.println("Unshuffling...");
         unshuffle();
-        System.out.println(Arrays.toString(cards));
+        //System.out.println(Arrays.toString(cards));
     }
 
     private static void createDeck() {
@@ -31,10 +34,9 @@ public class Main {
     }
 
     private static void shuffle() {
-
-        Random rnd = new Random();
+        Random random = new Random();
         for (int i = TOTAL_CARDS - 1; i > 0; i--) {
-            int index = rnd.nextInt(i + 1);
+            int index = random.nextInt(i + 1);
             swapCardsAtIndexes(index, i);
         }
     }
