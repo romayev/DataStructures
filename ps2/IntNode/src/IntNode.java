@@ -82,40 +82,65 @@ public class IntNode {
         return node;
     }
 
-    public static IntNode removerEveryOther(IntNode front){
+    public static IntNode removerEveryOther(IntNode front) {
+        // Looks like you are checking to see if you only have one node,
+        // which is correct.
         if (front.next == null) {
+            // Your method says you need to return IntNode, but your statement below does not return anything,
+            // which is why the compiler is not happy.
             return;
         }
 
-        for (IntNode ptr front; ptr != null; ptr = ptr.next){
-            if (ptr.next == null){
+        // Two things here:
+        // 1. The syntax is broken here: IntNode ptr front. You are saying: create a variable of type 'IntNode'
+        // can call it 'ptr', which is fine. Why did you put 'front' after it? Did you mean to initialize it to
+        // front, i.e. IntNode ptr = front;
+        // 2. This is a different way of iterating a linked list (we used a while loop in other problems). Is
+        // there a reason you switched? Is this what you do in class? In any case, when you hand in your assignments
+        // you should be consistent.
+        for (IntNode ptr = front; ptr != null; ptr = ptr.next) {
+            if (ptr.next == null) {
+                // Your method says you need to return IntNode, but your statement below does not return anything,
+                // which is why the compiler is not happy.
                 return;
             }
+
+            // Your variable is called ptr not ptrn. Fix it and the compiler will be happy.
             ptrn.next = ptr.next.next;
         }
+        // You need to return an IntNode at this point, same idea as above
     }
 
-    public static IntNode CommonElements(IntNode frontOne, intNode frontTwo){
-        IntNode ptr1= frontOne; ptr2 = frontTwo; frontThree = null;
+    // Method names always start with a lowercase letter (see all the methods above and your teacher's naming)
+    // Should be commonElements
+    // Your type is IntNode, not intNode. Fix it and the compiler will be happy
+    //
+    // Overall, the logic seems to be going in the right direction, but let's fix the syntax first
+    public static IntNode CommonElements(IntNode frontOne, intNode frontTwo) {
+        // You can declare three variables of the same type on the same line, but not declare and assign
+        // at the same time. Split into 3 lines.
+        IntNode ptr1 = frontOne; ptr2 = frontTwo; frontThree = null;
+        // What is 'node'? Do you mean IntNode? Same for 'Node'.
         node ptr3 = new Node(0,null);
-        while (ptr1 != null && ptr2 != null){
+        while (ptr1 != null && ptr2 != null) {
             if (ptr1.data == ptr2.data) {
-                if (ptr3.data == null){
+                if (ptr3.data == null) {
+                    // Everything seems fine up to this point. Wny are you assigning ptr2.data the value of ptr1.data?
                     ptr2.data = ptr1.data;
                     frontThree = ptr3;
-                }
-            else {
+                } else {
+                    // You don't have any objects of type 'Node'. Did you mean 'IntNode'?
                     Node temp = new Node(ptr1.data, null);
                     ptr3.next = temp;
                     ptr3 = ptr3.next;
                 }
-            }
-            else if (ptr1.data > ptr2.data){
+            } else if (ptr1.data > ptr2.data) {
                 ptr2 = ptr2.next;
-            }
-            else (ptr1.data < ptr2.data){
+            } else (ptr1.data < ptr2.data) {
                 ptr1 = ptr1.next;
             }
+            // This will retrun during the first iteration of the loop. Did you mean to put it in the end after the loop
+            // is done?
             return frontThree;
         }
     }
@@ -157,5 +182,10 @@ public class IntNode {
 
         front = addBeforeLast(one, 999);
         printList(front);
+
+        // Test 'removerEveryOther', call them method and print the list
+        // then call it again and again and again untill you see only one node
+
+        // Test 'commonElements'
     }
 }
