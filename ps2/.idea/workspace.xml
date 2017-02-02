@@ -19,8 +19,8 @@
       <file leaf-file-name="IntNode.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/IntNode/src/IntNode.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="696">
-              <caret line="120" column="62" lean-forward="true" selection-start-line="120" selection-start-column="5" selection-end-line="120" selection-end-column="5" />
+            <state relative-caret-position="2121">
+              <caret line="160" column="97" lean-forward="false" selection-start-line="160" selection-start-column="97" selection-end-line="160" selection-end-column="97" />
               <folding>
                 <element signature="e#379#380#0" expanded="true" />
                 <element signature="e#412#413#0" expanded="true" />
@@ -241,8 +241,8 @@
     <entry file="file://$PROJECT_DIR$/src/Main.java" />
     <entry file="file://$PROJECT_DIR$/IntNode/src/IntNode.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="696">
-          <caret line="120" column="62" lean-forward="true" selection-start-line="120" selection-start-column="5" selection-end-line="120" selection-end-column="5" />
+        <state relative-caret-position="2121">
+          <caret line="160" column="97" lean-forward="false" selection-start-line="160" selection-start-column="97" selection-end-line="160" selection-end-column="97" />
           <folding>
             <element signature="e#379#380#0" expanded="true" />
             <element signature="e#412#413#0" expanded="true" />

@@ -88,26 +88,32 @@ public class IntNode {
         if (front.next == null) {
             // Your method says you need to return IntNode, but your statement below does not return anything,
             // which is why the compiler is not happy.
-            return;
+            return front;
         }
 
         // Two things here:
         // 1. The syntax is broken here: IntNode ptr front. You are saying: create a variable of type 'IntNode'
         // can call it 'ptr', which is fine. Why did you put 'front' after it? Did you mean to initialize it to
         // front, i.e. IntNode ptr = front;
+
+        // I guess making a separate pointer isn't necessary. We went over this loop in class, I figured I would give it a go.
+
+
         // 2. This is a different way of iterating a linked list (we used a while loop in other problems). Is
         // there a reason you switched? Is this what you do in class? In any case, when you hand in your assignments
         // you should be consistent.
-        for (IntNode ptr = front; ptr != null; ptr = ptr.next) {
-            if (ptr.next == null) {
+        for (front; front != null; front = front.next) {
+            if (front.next == null) {
                 // Your method says you need to return IntNode, but your statement below does not return anything,
                 // which is why the compiler is not happy.
-                return;
+                return front;
             }
 
             // Your variable is called ptr not ptrn. Fix it and the compiler will be happy.
-            ptrn.next = ptr.next.next;
+            front.next = front.next.next;
         }
+        return front;
+        //not sure I follow why
         // You need to return an IntNode at this point, same idea as above
     }
 
@@ -116,21 +122,31 @@ public class IntNode {
     // Your type is IntNode, not intNode. Fix it and the compiler will be happy
     //
     // Overall, the logic seems to be going in the right direction, but let's fix the syntax first
-    public static IntNode CommonElements(IntNode frontOne, intNode frontTwo) {
+
+    // typed the code out fairly fast, was trying to get the logic down first :) I copied this from my notebook
+
+    public static IntNode commonElements(IntNode frontOne, IntNode frontTwo) {
         // You can declare three variables of the same type on the same line, but not declare and assign
         // at the same time. Split into 3 lines.
-        IntNode ptr1 = frontOne; ptr2 = frontTwo; frontThree = null;
+        IntNode ptr1 = frontOne;
+        IntNode ptr2 = frontTwo;
+        IntNode frontThree = null;
         // What is 'node'? Do you mean IntNode? Same for 'Node'.
-        node ptr3 = new Node(0,null);
+        IntNode ptr3 = new Node(0,null);
         while (ptr1 != null && ptr2 != null) {
             if (ptr1.data == ptr2.data) {
                 if (ptr3.data == null) {
                     // Everything seems fine up to this point. Wny are you assigning ptr2.data the value of ptr1.data?
-                    ptr2.data = ptr1.data;
+
+                    //my mistake, meant to assign the value to ptr3
+
+                    ptr3.data = ptr1.data;
                     frontThree = ptr3;
                 } else {
                     // You don't have any objects of type 'Node'. Did you mean 'IntNode'?
-                    Node temp = new Node(ptr1.data, null);
+
+                    //yes
+                    IntNode temp = new IntNode(ptr1.data, null);
                     ptr3.next = temp;
                     ptr3 = ptr3.next;
                 }
@@ -141,8 +157,10 @@ public class IntNode {
             }
             // This will retrun during the first iteration of the loop. Did you mean to put it in the end after the loop
             // is done?
-            return frontThree;
+
+            //yes.. I initially felt weird about returning it after the while loop ended though. 
         }
+        return frontThree;
     }
 
     public static void main(String[] args) {
