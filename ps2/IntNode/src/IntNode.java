@@ -66,12 +66,6 @@ public class IntNode {
         return front;
     }
 
-    // creates a new linked list consisting of the items common to the input lists
-    // return the front of this new linked list, null if there are no common items
-    public static IntNode commonElements(IntNode frontL1, IntNode frontL2) {
-        return null;
-    }
-
     private static IntNode createList() {
         IntNode node = null;
         // Iterate prime numbers backwards, create nodes from end to front
@@ -83,11 +77,7 @@ public class IntNode {
     }
 
     public static IntNode removerEveryOther(IntNode front) {
-        // Looks like you are checking to see if you only have one node,
-        // which is correct.
         if (front.next == null) {
-            // Your method says you need to return IntNode, but your statement below does not return anything,
-            // which is why the compiler is not happy.
             return front;
         }
 
@@ -98,32 +88,31 @@ public class IntNode {
 
         // I guess making a separate pointer isn't necessary. We went over this loop in class, I figured I would give it a go.
 
+        // Your code was correct the first time, you were just missing the '='
+        // This is what it says:
+        // IntNode ptr = front: create a pointer of type 'IntNode', call it 'ptr', initialize it to 'front'
+        // ptr.next != null: keep going until ptr.next is null
+        // ptr = ptr.next: at the end of each loop make ptr to point to ptr.next
+        // for (IntNode ptr = front; ptr.next != null; ptr = ptr.next) {
+
 
         // 2. This is a different way of iterating a linked list (we used a while loop in other problems). Is
         // there a reason you switched? Is this what you do in class? In any case, when you hand in your assignments
         // you should be consistent.
+
+        // When this is working, change addBefore and addBeforeLast to use the for loop instead of the while loop
+        // to stay consistent
         for (front; front != null; front = front.next) {
             if (front.next == null) {
-                // Your method says you need to return IntNode, but your statement below does not return anything,
-                // which is why the compiler is not happy.
                 return front;
             }
 
             // Your variable is called ptr not ptrn. Fix it and the compiler will be happy.
+            // Once you fix the loop, it should be ptr.next = ptr.next.next;
             front.next = front.next.next;
         }
         return front;
-        //not sure I follow why
-        // You need to return an IntNode at this point, same idea as above
     }
-
-    // Method names always start with a lowercase letter (see all the methods above and your teacher's naming)
-    // Should be commonElements
-    // Your type is IntNode, not intNode. Fix it and the compiler will be happy
-    //
-    // Overall, the logic seems to be going in the right direction, but let's fix the syntax first
-
-    // typed the code out fairly fast, was trying to get the logic down first :) I copied this from my notebook
 
     public static IntNode commonElements(IntNode frontOne, IntNode frontTwo) {
         // You can declare three variables of the same type on the same line, but not declare and assign
@@ -132,9 +121,10 @@ public class IntNode {
         IntNode ptr2 = frontTwo;
         IntNode frontThree = null;
         // What is 'node'? Do you mean IntNode? Same for 'Node'.
-        IntNode ptr3 = new Node(0,null);
+        IntNode ptr3 = new IntNode(0,null);
         while (ptr1 != null && ptr2 != null) {
             if (ptr1.data == ptr2.data) {
+                // ptr3.data is an 'int'. It cannot be 'null'. As a matter of fact, you initialized it to zero on line 124
                 if (ptr3.data == null) {
                     // Everything seems fine up to this point. Wny are you assigning ptr2.data the value of ptr1.data?
 
@@ -152,13 +142,10 @@ public class IntNode {
                 }
             } else if (ptr1.data > ptr2.data) {
                 ptr2 = ptr2.next;
+             // Should be 'else if' not 'else'
             } else (ptr1.data < ptr2.data) {
                 ptr1 = ptr1.next;
             }
-            // This will retrun during the first iteration of the loop. Did you mean to put it in the end after the loop
-            // is done?
-
-            //yes.. I initially felt weird about returning it after the while loop ended though. 
         }
         return frontThree;
     }
