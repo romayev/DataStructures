@@ -1,6 +1,6 @@
 public class IntNode {
-    private static final int[] PRIME_NUMBERS = new int[] { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 91, 97 };
-
+    private static final int[] PRIME_NUMBERS = new int[]{2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 91, 97};
+    private static final int[] LUCKY_NUMBERS = new int[]{3, 6, 7, 9, 11, 16, 20};
     public int data;
     public IntNode next;
 
@@ -11,7 +11,7 @@ public class IntNode {
 
     @Override
     public String toString() {
-        String next = (this.next != null) ? String.valueOf(this.next.data): "null";
+        String next = (this.next != null) ? String.valueOf(this.next.data) : "null";
         return data + "->" + next + " ";
     }
 
@@ -51,7 +51,7 @@ public class IntNode {
         IntNode current = front;
         // I'm the only one here cute :) (current is last)
         if (current.next == null) {
-            IntNode node = new IntNode (item, current);
+            IntNode node = new IntNode(item, current);
             return node;
         }
 
@@ -67,11 +67,11 @@ public class IntNode {
         return front;
     }
 
-    private static IntNode createList() {
+    private static IntNode createList(int[] array) {
         IntNode node = null;
         // Iterate prime numbers backwards, create nodes from end to front
-        for (int i = PRIME_NUMBERS.length - 1; i >= 0; i-- ) {
-            int data = PRIME_NUMBERS[i];
+        for (int i = array.length - 1; i >= 0; i--) {
+            int data = array[i];
             node = new IntNode(data, node);
         }
         return node;
@@ -92,43 +92,40 @@ public class IntNode {
     }
 
     public static IntNode commonElements(IntNode frontOne, IntNode frontTwo) {
-        // You can declare three variables of the same type on the same line, but not declare and assign
-        // at the same time. Split into 3 lines.
+       
         IntNode ptr1 = frontOne;
         IntNode ptr2 = frontTwo;
-        IntNode frontThree = null;
-        // What is 'node'? Do you mean IntNode? Same for 'Node'.
-        IntNode ptr3 = new IntNode(0,null);
-//        while (ptr1 != null && ptr2 != null) {
-//            if (ptr1.data == ptr2.data) {
-//                // ptr3.data is an 'int'. It cannot be 'null'. As a matter of fact, you initialized it to zero on line 124
-//                if (ptr3.data == null) {
-//                    // Everything seems fine up to this point. Wny are you assigning ptr2.data the value of ptr1.data?
-//
-//                    //my mistake, meant to assign the value to ptr3
-//
-//                    ptr3.data = ptr1.data;
-//                    frontThree = ptr3;
-//                } else {
-//                    // You don't have any objects of type 'Node'. Did you mean 'IntNode'?
-//
-//                    //yes
-//                    IntNode temp = new IntNode(ptr1.data, null);
-//                    ptr3.next = temp;
-//                    ptr3 = ptr3.next;
-//                }
-//            } else if (ptr1.data > ptr2.data) {
-//                ptr2 = ptr2.next;
-//             // Should be 'else if' not 'else'
-//            } else (ptr1.data < ptr2.data) {
-//                ptr1 = ptr1.next;
-//            }
-//        }
-        return frontThree;
+        IntNode last = null;
+        IntNode front = null;
+
+        while (ptr1 != null && ptr2 != null) {
+            if (ptr1.data > ptr2.data) {
+                ptr2 = ptr2.next;
+            } else if (ptr1.data < ptr2.data) {
+                ptr1 = ptr1.next;
+            } else {  //if the two are equal
+                IntNode match = new IntNode(ptr1.data, null);
+                if (last != null) {
+                    last.next = match;
+                } else {
+                    front = match;
+                }
+                last = match;
+
+                ptr1 = ptr1.next;
+                ptr2 = ptr2.next;
+
+            }
+        }
+        return front;
     }
 
+
+
+
+
     public static void main(String[] args) {
-        System.out.println("Adding 99 before 100");
+//        System.out.println("Adding 99 before 100");
 //        IntNode oneOnly = new IntNode(100, null);
 //        printList(oneOnly);
 //        oneOnly = addBefore(oneOnly, 100, 99);
@@ -164,24 +161,32 @@ public class IntNode {
 //
 //        front = addBeforeLast(one, 999);
 //        printList(front);
+        //        printList(front);
+//        front = removerEveryOther(front);
+//        printList(front);
+//        front = removerEveryOther(front);
+//        printList(front);
+//        front = removerEveryOther(front);
+//        printList(front);
+//        front = removerEveryOther(front);
+//        printList(front);
+//        front = removerEveryOther(front);
+//        printList(front);
+//        front = removerEveryOther(front);
+//        printList(front);
 
-        IntNode front = createList();
-        printList(front);
-        front = removerEveryOther(front);
-        printList(front);
-        front = removerEveryOther(front);
-        printList(front);
-        front = removerEveryOther(front);
-        printList(front);
-        front = removerEveryOther(front);
-        printList(front);
-        front = removerEveryOther(front);
-        printList(front);
-        front = removerEveryOther(front);
-        printList(front);
         // Test 'removerEveryOther', call them method and print the list
         // then call it again and again and again untill you see only one node
 
         // Test 'commonElements'
+
+        IntNode front = createList(PRIME_NUMBERS);
+        printList(front);
+        IntNode back = createList(LUCKY_NUMBERS);
+        printList(back);
+
+        IntNode side = commonElements(front, back);
+        printList(side);
+
     }
 }
