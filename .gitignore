@@ -1,7 +1,6 @@
 */*/.idea
 */*/*.iml
-*workspace.xml
-*misc.xml
+.idea
 
 .metadata
 bin/
