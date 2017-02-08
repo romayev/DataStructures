@@ -34,7 +34,7 @@ public class IntNode {
         IntNode current = front;
 
         while (current != null){
-            if (current.data)
+            if (current.data);
         }
 
         IntNode prev=null, ptr=front;
@@ -45,7 +45,7 @@ public class IntNode {
         if (ptr == null) { // target not found
             return front;
         }
-        IntNode temp = Intnew Node(newItem, ptr); // next of new node should point to target
+        IntNode temp = new IntNode(newItem, ptr); // next of new node should point to target
         if (prev == null) { // target is first item, so new node will be new front
             return temp;
         }
