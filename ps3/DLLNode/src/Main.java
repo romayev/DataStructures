@@ -60,13 +60,16 @@ public class Main {
     }
 
     public static void main(String[] args) {
-//        System.out.println("Creating list...");
-//        DLLNode front = createList(NUMBERS);
-//        printList(front);
-//        System.out.println("Moving " + front.next.next + " to front");
-//        front = moveToFront(front, front.next.next);
-//        printList(front);
+        System.out.println("Creating list...");
         DLLNode front = createList(NUMBERS);
+        printList(front);
+        System.out.println("Moving " + front.next.next + " to front");
+        front = moveToFront(front, front.next.next);
+        printList(front);
+        System.out.println("Re-creating list...");
+        front = createList(NUMBERS);
+        printList(front);
+        System.out.println("Reversing...");
         DLLNode test = reverse(front);
         printList(test);
 
