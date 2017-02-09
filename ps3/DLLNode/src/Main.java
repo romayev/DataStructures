@@ -1,5 +1,6 @@
 public class Main {
     private static final String[] NUMBERS = {"one", "two", "three", "four", "five"};
+
     public static DLLNode moveToFront(DLLNode front, DLLNode target) {
         if (target == null || front == null) {
             return null;
@@ -58,6 +59,7 @@ public class Main {
         }
         System.out.println();
     }
+
 
     public static void main(String[] args) {
         System.out.println("Creating list...");

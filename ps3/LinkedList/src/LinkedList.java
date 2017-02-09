@@ -57,10 +57,8 @@ public class LinkedList {
                 return false;
             }
         }
-
-        Node current = rear.next; //going to use this one to cycle through the list, assuming rear means front
+        Node current = rear.next;
         Node prev = rear;
-
         while (current != rear) {
             if (current.data.equals(target)) {
                 prev.next = current.next;
@@ -72,6 +70,34 @@ public class LinkedList {
         return false;
     }
 
+    public static Node deleteAll(Node front, String target) {
+        if (front == null) {
+            return null;
+        }
+        if (front.data.equals(target)) {
+            return deleteAll(front.next, target);
+        }
+        front.next = deleteAll(front.next, target);
+        return front;
+    }
+
+    public static IntNode merge (IntNode one, IntNode two) {
+           if (one == null) return two;
+           if (two == null) return one;
+           if (one.data == two.data){
+               one.next = merge(one.next, two.next);
+               return one;
+           }
+           if (one.data < two.data){
+               one.next = merge(one.next, two);
+               return one;
+           }
+           if (one.data > two.data){
+               two.next = merge(one, two.next);
+               return one;
+           }
+           return one;
+    }
     public static void main(String[] args) {
         LinkedList list = new LinkedList(EMPTY);
 
