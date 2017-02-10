@@ -5,6 +5,7 @@
  */
 public class LinkedList {
     private static final String[] SEASONS = new String[] {"winter", "spring", "summer", "fall"};
+    private static final String[] DUPE_SEASONS = new String[] {"winter", "spring", "winter", "fall", "summer", "fall"};
     private static final String[] EMPTY = new String[]{"empty"};
 
     private Node rear;  // pointer to last node of CLL
@@ -69,42 +70,30 @@ public class LinkedList {
         }
         return false;
     }
+    static Node Reverse(Node list) {
+        if (list == null) return null;
 
-    public static Node deleteAll(Node front, String target) {
-        if (front == null) {
-            return null;
-        }
-        if (front.data.equals(target)) {
-            return deleteAll(front.next, target);
-        }
-        front.next = deleteAll(front.next, target);
-        return front;
-    }
+        if (list.next == null) return list;
 
-    public static IntNode merge (IntNode one, IntNode two) {
-           if (one == null) return two;
-           if (two == null) return one;
-           if (one.data == two.data){
-               one.next = merge(one.next, two.next);
-               return one;
-           }
-           if (one.data < two.data){
-               one.next = merge(one.next, two);
-               return one;
-           }
-           if (one.data > two.data){
-               two.next = merge(one, two.next);
-               return one;
-           }
-           return one;
+        Node next = list.next;
+
+        list.next = null;
+
+        Node reverse = Reverse(next);
+
+        next.next = list;
+
+        return reverse;
     }
     public static void main(String[] args) {
-        LinkedList list = new LinkedList(EMPTY);
+        LinkedList list = new LinkedList(DUPE_SEASONS);
+        System.out.println(list);
 
-        System.out.println(list);
-        boolean result = list.delete("empty");
-        System.out.println("Result: " + result);
-        System.out.println(list);
+//        boolean result = list.delete("empty");
+//        System.out.println("Result: " + result);
+//        System.out.println(list);
+        Node reverse = Reverse(SEASONS);
+        System.out.println(reverse);
     }
 }
 

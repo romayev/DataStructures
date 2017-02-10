@@ -1,6 +1,11 @@
 public class IntNode {
-    private static final int[] PRIME_NUMBERS = new int[]{2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 91, 97};
-    private static final int[] LUCKY_NUMBERS = new int[]{3, 6, 7, 9, 11, 16, 20};
+    private static final int[] PRIME_NUMBERS = new int[] {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 91, 97};
+    private static final int[] LUCKY_NUMBERS = new int[] {3, 6, 7, 9, 11, 16, 20};
+
+    private static final int[] ONE = new int[] {3, 6};
+    private static final int[] TWO = new int[] {4, 6, 7};
+
+
     public int data;
     public IntNode next;
 
@@ -120,10 +125,30 @@ public class IntNode {
         return front;
     }
 
+    public static IntNode merge (IntNode one, IntNode two) {
+//        System.out.println("One: ");
+//        printList(one) ;
+//
+//        System.out.println("Two: ");
+//        printList(two);
 
-
-
-
+        if (one == null) return two;
+        if (two == null) return one;
+        if (one.data == two.data) {
+            one.next = merge(one.next, two.next);
+            return one;
+        }
+        if (one.data < two.data) {
+            one.next = merge(one.next, two);
+            return one;
+        }
+        if (one.data > two.data) {
+            two.next = merge(one, two.next);
+            return two;
+        }
+        return one;
+    }
+    
     public static void main(String[] args) {
 //        System.out.println("Adding 99 before 100");
 //        IntNode oneOnly = new IntNode(100, null);
@@ -180,13 +205,20 @@ public class IntNode {
 
         // Test 'commonElements'
 
-        IntNode front = createList(PRIME_NUMBERS);
-        printList(front);
-        IntNode back = createList(LUCKY_NUMBERS);
-        printList(back);
+        System.out.println("Creating prime");
+        IntNode primeFront = createList(PRIME_NUMBERS);
+        printList(primeFront);
 
-        IntNode side = commonElements(front, back);
-        printList(side);
+        System.out.println("Creating lucky");
+        IntNode luckyFront = createList(LUCKY_NUMBERS);
+        printList(luckyFront);
 
+//        System.out.println("Calculating common");
+//        IntNode common = commonElements(primeFront, luckyFront);
+//        printList(common);
+
+        System.out.println("Merging");
+        IntNode merged = merge(primeFront, luckyFront);
+        printList(merged);
     }
 }

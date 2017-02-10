@@ -3,6 +3,6 @@
  */
 public class IntNode {
         public int data;
-        public Node next;
+        public IntNode next;
 
 }

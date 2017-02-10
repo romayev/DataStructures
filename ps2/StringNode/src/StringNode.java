@@ -1,6 +1,7 @@
 public class StringNode {
 
-    private static final String[] STRING_LIST  = new String[] { "Sasha", "Roma", "Julie", "Alex", "Rita", "Kuzya", "Julie", "Peter"};
+    private static final String[] STRING_LIST  = new String[] { "Julie", "Sasha", "Roma", "Julie", "Roma", "Roma", "Julie", "Alex", "Roma", "Rita", "Kuzya", "Julie", "Julie", "Peter"};
+    private static final String[] SMALL_LIST  = new String[] { "Roma", "Julie", "Alex"};
 
     public String data;
     public StringNode next;
@@ -9,7 +10,7 @@ public class StringNode {
         this.data = data; this.next = next;
     }
     public String toString() {
-        return data;
+        return data + " ";
     }
 
     public static int numberOfOccurrences(StringNode front, String target) {
@@ -25,6 +26,19 @@ public class StringNode {
         return counter;
     }
 
+    public static StringNode deleteAll(StringNode front, String target) {
+        printList(front);
+        if (front == null) {
+            return null;
+        }
+        if (front.data.equals(target)) {
+            return deleteAll(front.next, target);
+        }
+        front.next = deleteAll(front.next, target);
+        return front;
+    }
+
+
     private static StringNode createList(String[] array) {
         StringNode node = null;
         for (int i = array.length - 1; i >= 0; i--) {
@@ -34,13 +48,31 @@ public class StringNode {
         return node;
     }
 
+    private static void printList(StringNode front) {
+        StringNode current = front;
+        while (current != null) {
+            System.out.print(current);
+            current = current.next;
+        }
+        System.out.println();
+    }
 
     public static void main(String[] args) {
+        StringNode front = createList(SMALL_LIST);
+        printList(front);
+        
+        System.out.println("Julie: " + numberOfOccurrences(front, "Julie"));
+        System.out.println("Roma: " + numberOfOccurrences(front, "Roma"));
 
-        StringNode family = createList(STRING_LIST);
-        int result = numberOfOccurrences(null, "julie");
-        System.out.println(result);
-
-        // write your code here
+        front = deleteAll(front, "Julie");
+        System.out.println("Done!");
+        printList(front);
+//        System.out.println("Julie: " + numberOfOccurrences(front, "Julie"));
+//        System.out.println("Roma: " + numberOfOccurrences(front, "Roma"));
+//
+//        front = deleteAll(front, "Roma");
+//        printList(front);
+//        System.out.println("Julie: " + numberOfOccurrences(front, "Julie"));
+//        System.out.println("Roma: " + numberOfOccurrences(front, "Roma"));
     }
 }
