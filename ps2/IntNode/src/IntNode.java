@@ -5,6 +5,9 @@ public class IntNode {
     private static final int[] ONE = new int[] {3, 6};
     private static final int[] TWO = new int[] {4, 6, 7};
 
+    // 4->6 6->7 7->null
+    // 6->4 4->null
+
 
     public int data;
     public IntNode next;
@@ -148,7 +151,31 @@ public class IntNode {
         }
         return one;
     }
-    
+
+    static IntNode reverse(IntNode front) {
+        if (front == null) return null;
+
+        if (front.next == null) return front;
+
+        IntNode next = front.next;
+
+        front.next = null;
+
+        IntNode reverse = reverse(next);
+
+        reverse.next = front;
+
+        return next;
+    }
+
+    // Reverse two nodes, i.e. switch the next to point backwards
+    static IntNode reverse1(IntNode first, IntNode second, IntNode third) {
+        third.next = second;
+        second.next = first;
+        first.next = null;
+        return third;
+    }
+
     public static void main(String[] args) {
 //        System.out.println("Adding 99 before 100");
 //        IntNode oneOnly = new IntNode(100, null);
@@ -205,20 +232,22 @@ public class IntNode {
 
         // Test 'commonElements'
 
-        System.out.println("Creating prime");
-        IntNode primeFront = createList(PRIME_NUMBERS);
-        printList(primeFront);
-
-        System.out.println("Creating lucky");
-        IntNode luckyFront = createList(LUCKY_NUMBERS);
-        printList(luckyFront);
-
-//        System.out.println("Calculating common");
-//        IntNode common = commonElements(primeFront, luckyFront);
-//        printList(common);
-
-        System.out.println("Merging");
-        IntNode merged = merge(primeFront, luckyFront);
-        printList(merged);
+//        System.out.println("Creating prime");
+//        IntNode primeFront = createList(PRIME_NUMBERS);
+//        printList(primeFront);
+//
+//        System.out.println("Creating lucky");
+//        IntNode luckyFront = createList(LUCKY_NUMBERS);
+//        printList(luckyFront);
+//
+////        System.out.println("Calculating common");
+////        IntNode common = commonElements(primeFront, luckyFront);
+////        printList(common);
+//
+//        System.out.println("Merging");
+//        IntNode merged = merge(primeFront, luckyFront);
+//        printList(merged);
+        IntNode numbers = createList(TWO);
+        System.out.println(reverse(numbers));
     }
 }

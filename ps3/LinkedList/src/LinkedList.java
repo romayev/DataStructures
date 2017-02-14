@@ -70,21 +70,7 @@ public class LinkedList {
         }
         return false;
     }
-    static Node Reverse(Node list) {
-        if (list == null) return null;
 
-        if (list.next == null) return list;
-
-        Node next = list.next;
-
-        list.next = null;
-
-        Node reverse = Reverse(next);
-
-        next.next = list;
-
-        return reverse;
-    }
     public static void main(String[] args) {
         LinkedList list = new LinkedList(DUPE_SEASONS);
         System.out.println(list);
