@@ -71,40 +71,112 @@ public class Solitaire {
 	    	deckRear.next = cn;
 	    	deckRear = cn;
 		}
-		
+		printList(deckRear);
 	}
 	
 	/**
 	 * Implements Step 1 - Joker A - on the deck.
 	 */
-	void jokerA() {
-		// COMPLETE THIS METHOD
-		CardNode target = deckRear;
-		while (deckRear.cardValue != 27 ) {
-			deckRear = deckRear.next;
-		
+	private void designateRearNode(CardNode node){
+	   if (node == deckRear) {
+	   		deckRear = node.next;
+	   } else if (node.next == deckRear) {
+	   		deckRear = node;
+	   }
+	}
+
+	private CardNode findNodeBefore(int target){
+		CardNode prev = deckRear;
+		CardNode curr = deckRear.next;
+		while (curr.cardValue != target) {
+			prev = curr;
+			curr = curr.next;
 		}
+		return prev;
+	}
+
+	private CardNode jokerASwap(CardNode prev) {
+		CardNode one = prev;
+		CardNode two = prev.next;  //if two is rear node, designate prev as rearnode ^pass prev to above method to do so
+		designateRearNode(two);
+
+		CardNode three = prev.next.next;
+		CardNode four = three.next;
+
+		one.next = three;
+		two.next = four;
+		three.next = two;
+		return one;
+	}
+
+
+	private CardNode findNodeBeforeJoker(CardNode startNode) {
+		CardNode prev = startNode;
+		CardNode curr = startNode.next;
+		while (curr.cardValue != 27 && curr.cardValue != 28){
+			prev = curr;
+			curr = curr.next;
+		}
+		return prev;
+	}
+
+	private CardNode findNodeBeforePlace(int place) {
+		return null;
 	}
 	
+	void jokerA() {
+		CardNode prev = findNodeBefore(27);
+		jokerASwap(prev);
+		System.out.println( "Joker A: ");
+		printList(deckRear);
+	}
+
 	/**
 	 * Implements Step 2 - Joker B - on the deck.
 	 */
-	void jokerB() {
-	    // COMPLETE THIS METHOD
+	private void jokerBSwap(CardNode prev) {
+		CardNode one = jokerASwap(prev);
+		jokerASwap(one.next);
 	}
-	
+
+	void jokerB() {
+		CardNode prev = findNodeBefore(28);
+		jokerBSwap(prev);
+		System.out.println("Joker B: ");
+		printList(deckRear);
+	}
+
+
 	/**
 	 * Implements Step 3 - Triple Cut - on the deck.
 	 */
 	void tripleCut() {
-		// COMPLETE THIS METHOD
+
+		CardNode first = deckRear.next;
+		CardNode beforeJoker1 = findNodeBeforeJoker(first);
+		CardNode joker1 = beforeJoker1.next;
+		CardNode beforeJoker2 = findNodeBeforeJoker(beforeJoker1.next.next);
+		CardNode joker2 = beforeJoker2.next;
+
+		if (first == joker1) {
+	        deckRear = joker2;
+		} else if (deckRear == joker2) {
+			deckRear = beforeJoker1;
+		} else {
+			beforeJoker1.next = joker2.next;
+			joker2.next = first;
+			deckRear.next = joker1;
+			deckRear = beforeJoker1;
+		}
+		System.out.println("Triple Cut:");
+		printList(deckRear);
 	}
 	
 	/**
 	 * Implements Step 4 - Count Cut - on the deck.
 	 */
 	void countCut() {		
-		// COMPLETE THIS METHOD
+
 	}
 	
 	/**
@@ -116,13 +188,11 @@ public class Solitaire {
 	 * @return Key between 1 and 26
 	 */
 	int getKey() {
-		// COMPLETE THIS METHOD
-		// THE FOLLOWING LINE HAS BEEN ADDED TO MAKE THE METHOD COMPILE
 		jokerA();
 		jokerB();
 		tripleCut();
 		countCut();
-	    return 3;
+	   return deckRear.next.next.cardValue;
 	}
 	
 	/**
@@ -191,7 +261,7 @@ public class Solitaire {
 
 	private int[] messageToNumbers(String message) {
 		int[] numbers = new int[message.length()];
-		for (int i = 0; i < message.length(); i++ ) {
+		for (int i = 0; i < message.length(); i++) {
 			Character character = message.charAt(i);
 			character = Character.toUpperCase(character);
 			int interger = character - 'A' + 1;

@@ -17,6 +17,7 @@ public class Messenger {
 		
 		Scanner sc = new Scanner(new File(br.readLine()));
 		ss.makeDeck(sc);
+
 		
 		System.out.print("Encrypt or decrypt? (e/d), press return to quit => ");
 		String inp = br.readLine();
