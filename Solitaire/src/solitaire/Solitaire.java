@@ -1,22 +1,23 @@
 package solitaire;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Scanner;
 import java.util.Random;
 
 /**
  * This class implements a simplified version of Bruce Schneier's Solitaire Encryption algorithm.
- * 
+ *
  * @author RU NB CS112
  */
 public class Solitaire {
-	
+
 	/**
 	 * Circular linked list that is the deck of cards for encryption
 	 */
 
 	CardNode deckRear;
-	
+
 	/**
 	 * Makes a shuffled deck of cards for encryption. The deck is stored in a circular
 	 * linked list, whose last node is pointed to by the field deckRear
@@ -28,7 +29,7 @@ public class Solitaire {
 		for (int i=0; i < cardValues.length; i++) {
 			cardValues[i] = i+1;
 		}
-		
+
 		// shuffle the cards
 		Random randgen = new Random();
  	        for (int i = 0; i < cardValues.length; i++) {
@@ -37,7 +38,7 @@ public class Solitaire {
 	            cardValues[i] = cardValues[other];
 	            cardValues[other] = temp;
 	        }
-	     
+
 	    // create a circular linked list from this deck and make deckRear point to its last node
 	    CardNode cn = new CardNode();
 	    cn.cardValue = cardValues[0];
@@ -51,11 +52,11 @@ public class Solitaire {
 	    	deckRear = cn;
 	    }
 	}
-	
+
 	/**
 	 * Makes a circular linked list deck out of values read from scanner.
 	 */
-	public void makeDeck(Scanner scanner) 
+	public void makeDeck(Scanner scanner)
 	throws IOException {
 		CardNode cn = null;
 		if (scanner.hasNextInt()) {
@@ -73,7 +74,7 @@ public class Solitaire {
 		}
 		printList(deckRear);
 	}
-	
+
 	/**
 	 * Implements Step 1 - Joker A - on the deck.
 	 */
@@ -120,10 +121,6 @@ public class Solitaire {
 		return prev;
 	}
 
-	private CardNode findNodeBeforePlace(int place) {
-		return null;
-	}
-	
 	void jokerA() {
 		CardNode prev = findNodeBefore(27);
 		jokerASwap(prev);
@@ -171,20 +168,39 @@ public class Solitaire {
 		System.out.println("Triple Cut:");
 		printList(deckRear);
 	}
-	
+
 	/**
 	 * Implements Step 4 - Count Cut - on the deck.
 	 */
-	void countCut() {		
+	void countCut() {
+        int number = deckRear.cardValue;
+        if (number == 28) {
+            System.out.println("Skipping Count Cut");
+            printList(deckRear);
+            return;
+        }
 
+        CardNode target = findNodeAtIndex(number);
+        CardNode originalFrontNode = deckRear.next;
+        System.out.println("current card value:" + target.cardValue);
+        CardNode secondToLast = findNodeBefore(number);
+        System.out.println("second to last:" + secondToLast.cardValue);
+
+
+        deckRear.next = target.next;
+        target.next = deckRear;
+        secondToLast.next = originalFrontNode;
+        System.out.println("countCut");
+        printList(deckRear);
 	}
-	
-	/**
+
+
+    /**
 	 * Gets a key. Calls the four steps - Joker A, Joker B, Triple Cut, Count Cut, then
-	 * counts down based on the value of the first card and extracts the next card value 
+	 * counts down based on the value of the first card and extracts the next card value
 	 * as key. But if that value is 27 or 28, repeats the whole process (Joker A through Count Cut)
 	 * on the latest (current) deck, until a value less than or equal to 26 is found, which is then returned.
-	 * 
+	 *
 	 * @return Key between 1 and 26
 	 */
 	int getKey() {
@@ -192,16 +208,27 @@ public class Solitaire {
 		jokerB();
 		tripleCut();
 		countCut();
-	   return deckRear.next.next.cardValue;
+		CardNode first = deckRear.next;
+		int number = first.cardValue;
+        if (number == 28) {
+            number = 27;
+        }
+        CardNode target = findNodeAtIndex(number);
+        int key = target.next.cardValue;
+        System.out.println("key: " + key);
+        while (key == 27 || key == 28) {
+            key = getKey();
+        }
+        return key;
 	}
-	
+
 	/**
 	 * Utility method that prints a circular linked list, given its rear pointer
-	 * 
+	 *
 	 * @param rear Rear pointer
 	 */
 	private static void printList(CardNode rear) {
-		if (rear == null) { 
+		if (rear == null) {
 			return;
 		}
 		System.out.print(rear.next.cardValue);
@@ -215,14 +242,13 @@ public class Solitaire {
 
 	/**
 	 * Encrypts a message, ignores all characters except upper case letters
-	 * 
+	 *
 	 * @param message Message to be encrypted
 	 * @return Encrypted message, a sequence of upper case letters only
 	 */
-	public String encrypt(String message) {	
-		// COMPLETE THIS METHOD
-	    // THE FOLLOWING LINE HAS BEEN ADDED TO MAKE THE METHOD COMPILE
+	public String encrypt(String message) {
 		int[] numbers = messageToNumbers(message);
+        System.out.println(Arrays.toString(numbers));
 		for (int i = 0; i < numbers.length; i++ ) {
 			int result = numbers[i] + getKey();
 			if (result > 26) {
@@ -230,13 +256,13 @@ public class Solitaire {
 			}
 			numbers[i] = result;
 		}
-	    String encryptedMessage = numbersToMessage(numbers);
+        String encryptedMessage = numbersToMessage(numbers);
 	    return encryptedMessage;
 	}
-	
+
 	/**
 	 * Decrypts a message, which consists of upper case letters only
-	 * 
+	 *
 	 * @param message Message to be decrypted
 	 * @return Decrypted message, a sequence of upper case letters only
 	 */
@@ -251,15 +277,17 @@ public class Solitaire {
 		}
 		String decryptedMessage = numbersToMessage(numbers);
 		return decryptedMessage;
-		// Declare an array of ints
-		// for each letter (character) in message
-		//   convert character to int and store in the array
-
-		// COMPLETE THIS METHOD
-	    // THE FOLLOWING LINE HAS BEEN ADDED TO MAKE THE METHOD COMPILE
 	}
 
-	private int[] messageToNumbers(String message) {
+    private CardNode findNodeAtIndex(int index) {
+        CardNode current = deckRear.next;
+        for (int i = 1; i < index; i++){
+            current = current.next;
+        }
+        return current;
+    }
+
+    private int[] messageToNumbers(String message) {
 		int[] numbers = new int[message.length()];
 		for (int i = 0; i < message.length(); i++) {
 			Character character = message.charAt(i);
