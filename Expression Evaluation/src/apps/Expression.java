@@ -132,9 +132,42 @@ public class Expression {
      * @return Result of evaluation
      */
     public float evaluate() {
-    		/** COMPLETE THIS METHOD **/
-    		// following line just a placeholder for compilation
-    		return 0;
+        System.out.println("Expression: " + expr);
+
+        //Stack <String> stack = new Stack <String>();
+        StringTokenizer tokenizerString = new StringTokenizer(expr, delims, true);
+
+        while (tokenizerString.hasMoreTokens()) {
+            String token = tokenizerString.nextToken();
+            System.out.println(token);
+            if (isCharacter(token) || token.equals("[")) {
+                ScalarSymbol symbol = findScalar(token);
+                if (symbol != null) {
+                    return symbol.value;
+                }
+                //stack.push(token);
+            }
+        }
+
+        if (expr.length() == 1) {
+            try {
+                int symbol = Integer.parseInt(expr);
+                return symbol;
+            } catch (NumberFormatException e) {
+                System.out.println(expr + " is not a number");
+                System.out.println(e);
+            }
+        }
+        return 0;
+    }
+
+    private ScalarSymbol findScalar(String name) {
+        for (ScalarSymbol symbol : scalars) {
+            if (symbol.name.equals(name)) {
+                return symbol;
+            }
+        }
+        return null;
     }
 
     /**
