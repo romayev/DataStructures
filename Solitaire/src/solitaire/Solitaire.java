@@ -98,57 +98,55 @@ public class Solitaire {
 
 	private CardNode jokerASwap(CardNode prev) {
 		CardNode one = prev;
-		CardNode two = prev.next;  //if two is rear node, designate prev as rearnode ^pass prev to above method to do so
+		CardNode two = prev.next;
 		designateRearNode(two);
-
 		CardNode three = prev.next.next;
 		CardNode four = three.next;
-
 		one.next = three;
 		two.next = four;
 		three.next = two;
 		return one;
 	}
 
-
 	private CardNode findNodeBeforeJoker(CardNode startNode) {
 		CardNode prev = startNode;
 		CardNode curr = startNode.next;
-		while (curr.cardValue != 27 && curr.cardValue != 28){
+		while (curr.cardValue != 27 && curr.cardValue != 28) {
 			prev = curr;
 			curr = curr.next;
 		}
 		return prev;
 	}
 
-	void jokerA() {
-		CardNode prev = findNodeBefore(27);
-		jokerASwap(prev);
-		System.out.println( "Joker A: ");
-		printList(deckRear);
-	}
-
-	/**
-	 * Implements Step 2 - Joker B - on the deck.
-	 */
 	private void jokerBSwap(CardNode prev) {
 		CardNode one = jokerASwap(prev);
 		jokerASwap(one.next);
 	}
 
+	private CardNode findNodeAtIndex(int index) {
+		CardNode current = deckRear.next;
+		for (int i = 1; i < index; i++){
+			current = current.next;
+		}
+		return current;
+	}
+
+	void jokerA() {
+		CardNode prev = findNodeBefore(27);
+		jokerASwap(prev);
+	}
+
+	/**
+	 * Implements Step 2 - Joker B - on the deck.
+	 */
 	void jokerB() {
 		CardNode prev = findNodeBefore(28);
 		jokerBSwap(prev);
-		System.out.println("Joker B: ");
-		printList(deckRear);
 	}
-
-
 	/**
 	 * Implements Step 3 - Triple Cut - on the deck.
 	 */
 	void tripleCut() {
-
 		CardNode first = deckRear.next;
 		CardNode beforeJoker1 = findNodeBeforeJoker(first);
 		CardNode joker1 = beforeJoker1.next;
@@ -156,7 +154,7 @@ public class Solitaire {
 		CardNode joker2 = beforeJoker2.next;
 
 		if (first == joker1) {
-	        deckRear = joker2;
+			deckRear = joker2;
 		} else if (deckRear == joker2) {
 			deckRear = beforeJoker1;
 		} else {
@@ -165,33 +163,21 @@ public class Solitaire {
 			deckRear.next = joker1;
 			deckRear = beforeJoker1;
 		}
-		System.out.println("Triple Cut:");
-		printList(deckRear);
 	}
-
 	/**
 	 * Implements Step 4 - Count Cut - on the deck.
 	 */
 	void countCut() {
         int number = deckRear.cardValue;
         if (number == 28) {
-            System.out.println("Skipping Count Cut");
-            printList(deckRear);
             return;
         }
-
         CardNode target = findNodeAtIndex(number);
         CardNode originalFrontNode = deckRear.next;
-        System.out.println("current card value:" + target.cardValue);
         CardNode secondToLast = findNodeBefore(number);
-        System.out.println("second to last:" + secondToLast.cardValue);
-
-
         deckRear.next = target.next;
         target.next = deckRear;
         secondToLast.next = originalFrontNode;
-        System.out.println("countCut");
-        printList(deckRear);
 	}
 
 
@@ -215,13 +201,11 @@ public class Solitaire {
         }
         CardNode target = findNodeAtIndex(number);
         int key = target.next.cardValue;
-        System.out.println("key: " + key);
         while (key == 27 || key == 28) {
             key = getKey();
         }
         return key;
 	}
-
 	/**
 	 * Utility method that prints a circular linked list, given its rear pointer
 	 *
@@ -248,7 +232,7 @@ public class Solitaire {
 	 */
 	public String encrypt(String message) {
 		int[] numbers = messageToNumbers(message);
-        System.out.println(Arrays.toString(numbers));
+//        System.out.println(Arrays.toString(numbers));
 		for (int i = 0; i < numbers.length; i++ ) {
 			int result = numbers[i] + getKey();
 			if (result > 26) {
@@ -259,7 +243,6 @@ public class Solitaire {
         String encryptedMessage = numbersToMessage(numbers);
 	    return encryptedMessage;
 	}
-
 	/**
 	 * Decrypts a message, which consists of upper case letters only
 	 *
@@ -278,14 +261,6 @@ public class Solitaire {
 		String decryptedMessage = numbersToMessage(numbers);
 		return decryptedMessage;
 	}
-
-    private CardNode findNodeAtIndex(int index) {
-        CardNode current = deckRear.next;
-        for (int i = 1; i < index; i++){
-            current = current.next;
-        }
-        return current;
-    }
 
     private int[] messageToNumbers(String message) {
 		int[] numbers = new int[message.length()];
