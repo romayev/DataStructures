@@ -28,27 +28,13 @@ public class Queue {
       Queue evenQueue = new Queue();
       int originalSize = size();
 
-      for (int i = 2; i <= originalSize; i += 2) {
-          
+      for (int i = 0; i <= originalSize; i ++) {
+          if (i % 2 == 0) {
+                evenQueue.enqueue(dequeue());
+          }
+          if ((originalSize % 2) == 1) {
+                enqueue(dequeue());
       }
-    }
-
-    public static void main(String[] args) {
-
-        Queue evenQueue = new Queue();
-        Queue originalQueue = new Queue();
-
-        int originalSize = originalQueue.size();
-
-        for (int i = 2; i <= originalSize; i += 2) {
-            enqueue(dequeue());
-            evenQueue.enqueue(dequeue());
-        }
-        if ((originalSize % 2) == 1) {
-            enqueue(dequeue());
-        }
-        return evenQueue;
-
 
     }
 
