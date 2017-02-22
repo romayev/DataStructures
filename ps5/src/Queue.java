@@ -25,16 +25,17 @@ public class Queue {
     }
 
     public Queue split() {
-      Queue evenQueue = new Queue();
-      int originalSize = size();
+        Queue evenQueue = new Queue();
+        int originalSize = size();
 
-      for (int i = 0; i <= originalSize; i ++) {
-          if (i % 2 == 0) {
+        for (int i = 0; i <= originalSize; i++) {
+            if (i % 2 == 0) {
                 evenQueue.enqueue(dequeue());
-          }
-          if ((originalSize % 2) == 1) {
+            } else (i % 2 == 1) {
                 enqueue(dequeue());
-      }
+            }
+            return evenQueue;
+        }
 
     }
 
