@@ -31,12 +31,11 @@ public class Queue {
         for (int i = 0; i <= originalSize; i++) {
             if (i % 2 == 0) {
                 evenQueue.enqueue(dequeue());
-            } else (i % 2 == 1) {
+            } else {
                 enqueue(dequeue());
             }
-            return evenQueue;
         }
-
+        return evenQueue;
     }
 
 }
