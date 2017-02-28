@@ -144,30 +144,25 @@ public class Expression {
     }
 
     public float evaluate() {
-        // 55+a
+        expr = expr.replaceAll("\\s+","");
         System.out.println("Expression: " + expr);
         return evaluate(expr);
     }
 
-    private float evaluate(String expr) {
-        String lhsExpression = null;
-        float lhs = 0;
-        StringTokenizer tokenizerString = new StringTokenizer(expr, delims, true);
-        while (tokenizerString.hasMoreTokens()) {
-            String token = tokenizerString.nextToken();
-            if (token.equals(" ")) continue;
-            if (isOperation(token)) {
-                // Get whatever is to the right of operation
-                String rhsExpression = expr.substring(expr.indexOf(lhsExpression + token) + lhsExpression.length() + 1, expr.length());
-                System.out.println("rhs expression: " + rhsExpression);
-                float rhs = evaluate(rhsExpression);
-                String operation = token;
-                return performOperation(lhs, rhs, operation);
-            } else {
-                lhsExpression = token;
-                lhs = eval(token);
-                System.out.println("Evaluated lhs " + token + " to " + lhs);
-            }
+    private float evaluate(String expr) throws IllegalArgumentException {
+        System.out.println();
+        System.out.println("Evaluating: " + expr);
+
+        StringTokenizer tokenizer = new StringTokenizer(expr, delims, true);
+        String lhsExpression = tokenizer.nextToken();
+        float lhs = eval(lhsExpression);
+        System.out.println("Evaluated lhs '" + lhsExpression + "' to " + lhs);
+
+        if (tokenizer.hasMoreTokens()) {
+            String operation = tokenizer.nextToken();
+            String rhsExpression = expr.substring(lhsExpression.length() + 1, expr.length());
+            float rhs = evaluate(rhsExpression);
+            return performOperation(lhs, rhs, operation);
         }
         return lhs;
     }
