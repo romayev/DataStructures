@@ -60,6 +60,7 @@ public class LinkedList {
         }
         Node current = rear.next;
         Node prev = rear;
+
         while (current != rear) {
             if (current.data.equals(target)) {
                 prev.next = current.next;

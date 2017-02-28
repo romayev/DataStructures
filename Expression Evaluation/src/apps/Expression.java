@@ -86,7 +86,9 @@ public class Expression {
         return (token.charAt(0) >= 'a' && token.charAt(0) <= 'z') || (token.charAt(0) >= 'A' && token.charAt(0) <= 'Z');
     }
 
-
+    private boolean isOperation(String token) {
+        return token.equals("+") || token.equals("-") || token.equals("*") || token.equals("/");
+    }
     /**
      * Loads values for symbols in the expression
      * 
@@ -131,34 +133,43 @@ public class Expression {
      * 
      * @return Result of evaluation
      */
+
+    private float eval(String string) {
+        try {
+            return Float.parseFloat(string);
+        } catch (NumberFormatException exception) {
+            ScalarSymbol scaSymbol = findScalar(string);
+            return scaSymbol.value;
+        }
+    }
+
     public float evaluate() {
+        // 55+a
         System.out.println("Expression: " + expr);
+        return evaluate(expr);
+    }
 
-        //Stack <String> stack = new Stack <String>();
+    private float evaluate(String expr) {
+        String lhsExpression = null;
+        float lhs = 0;
         StringTokenizer tokenizerString = new StringTokenizer(expr, delims, true);
-
         while (tokenizerString.hasMoreTokens()) {
             String token = tokenizerString.nextToken();
-            System.out.println(token);
-            if (isCharacter(token) || token.equals("[")) {
-                ScalarSymbol symbol = findScalar(token);
-                if (symbol != null) {
-                    return symbol.value;
-                }
-                //stack.push(token);
+            if (token.equals(" ")) continue;
+            if (isOperation(token)) {
+                // Get whatever is to the right of operation
+                String rhsExpression = expr.substring(expr.indexOf(lhsExpression + token) + lhsExpression.length() + 1, expr.length());
+                System.out.println("rhs expression: " + rhsExpression);
+                float rhs = evaluate(rhsExpression);
+                String operation = token;
+                return performOperation(lhs, rhs, operation);
+            } else {
+                lhsExpression = token;
+                lhs = eval(token);
+                System.out.println("Evaluated lhs " + token + " to " + lhs);
             }
         }
-
-        if (expr.length() == 1) {
-            try {
-                int symbol = Integer.parseInt(expr);
-                return symbol;
-            } catch (NumberFormatException e) {
-                System.out.println(expr + " is not a number");
-                System.out.println(e);
-            }
-        }
-        return 0;
+        return lhs;
     }
 
     private ScalarSymbol findScalar(String name) {
@@ -188,4 +199,26 @@ public class Expression {
     		}
     }
 
+    private float performOperation(float first, float second, String operator)  throws IllegalArgumentException {
+        float result;
+        if (operator.equals("+")) {
+            result = first + second;
+            System.out.println("Adding " + first + " and " + second + " = " + result);
+        } else if (operator.equals("-")) {
+            result = first  - second;
+            System.out.println("Subtrating " + first + " and " + second + " = " + result);
+        } else if (operator.equals("*")) {
+            result = first * second;
+            System.out.println("Multiplying " + first + " and " + second + " = " + result);
+        } else if (operator.equals("/")) {
+           if (second == 0) {
+               throw new IllegalArgumentException("Cannot divide by zero");
+           }
+            result = first / second;
+            System.out.println("Dividing " + first + " and " + second + " = " + result);
+        } else {
+            throw new IllegalArgumentException(operator + " is not a valid operator");
+        }
+        return result;
+    }
 }
