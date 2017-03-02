@@ -154,17 +154,37 @@ public class Expression {
         System.out.println("Evaluating: " + expr);
 
         StringTokenizer tokenizer = new StringTokenizer(expr, delims, true);
-        String lhsExpression = tokenizer.nextToken();
-        float lhs = eval(lhsExpression);
-        System.out.println("Evaluated lhs '" + lhsExpression + "' to " + lhs);
+        String token = tokenizer.nextToken();
+        int tokenizerPosition = token.length();
 
-        if (tokenizer.hasMoreTokens()) {
+        float lhs = eval(token);
+        System.out.println("Evaluated lhs '" + token + "' to " + lhs);
+
+        while (tokenizer.hasMoreTokens()) {
             String operation = tokenizer.nextToken();
-            String rhsExpression = expr.substring(lhsExpression.length() + 1, expr.length());
-            float rhs = evaluate(rhsExpression);
-            return performOperation(lhs, rhs, operation);
+            tokenizerPosition += operation.length();
+//            if (isOpenParantheses(operation)) {
+//                float inparentheses =
+//               lhs = performOperation(lhs, tokenizer, operation);
+//               // obviously not zero but I need to figure out a way to solve whatever is before the closed parentheses.
+//            }
+            if (isHigherOrderOperator(operation)) {
+                String nextToken = tokenizer.nextToken();
+                tokenizerPosition += nextToken.length();
+                float next = eval(nextToken);
+                lhs = performOperation(lhs, next, operation);
+            } else {
+                String rhsExpression = expr.substring(tokenizerPosition, expr.length());
+                float rhs = evaluate(rhsExpression);
+                return performOperation(lhs, rhs, operation);
+            }
         }
         return lhs;
+    }
+    private boolean isClosedParantheses(String token) { return token.equals(")"); }
+    private boolean isOpenParantheses(String token) { return token.equals("("); }
+    private boolean isHigherOrderOperator(String token) {
+        return token.equals("*") || token.equals("/");
     }
 
     private ScalarSymbol findScalar(String name) {
