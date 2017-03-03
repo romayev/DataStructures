@@ -139,6 +139,14 @@ public class Expression {
         }
     }
 
+    private float arrayValue(ArraySymbol arraySymbol, int index) {
+        if (index < arraySymbol.values.length) {
+            return arraySymbol.values[index];
+        } else {
+            System.out.println("Array index out of bounds");
+            return 0;
+        }
+    }
     /**
      * Evaluates the expression, using RECURSION to evaluate subexpressions and to evaluate array
      * subscript expressions.
@@ -184,27 +192,23 @@ public class Expression {
                     tokenizerPosition = endOfSubExpression;
                     float subExpressionValue = evaluate(subExpression);
                     lhs = performOperation(lhs, subExpressionValue, token);
-//                } else if (isOpenSquareParantheses(nextToken)) {
-//                    int endOfSquareSubExpression = runTokenizerToEndOfCurvySubExpression(tokenizer, tokenizerPosition);
-//                    String subExpression = expr.substring(tokenizerPosition, endOfSquareSubExpression);
-//                    tokenizerPosition = endOfSquareSubExpression;
-//                    float subExpressionValue = evaluate(subExpression);
-//                    lhs = performOperation(lhs, subExpressionValue, token);
                 } else {
                     try {
                         float next = eval(nextToken);
                         lhs = performOperation(lhs, next, token);
                     } catch (NoSuchElementException e) {
-                        ArraySymbol arraySymbol = findArray(token);
-                        token = tokenizer.nextToken();
+                        ArraySymbol arraySymbol = findArray(nextToken);
+                        String openSquareBracket = tokenizer.nextToken();
                         tokenizerPosition += token.length();
                         assert arraySymbol != null;
-                        if (isOpenSquareParantheses(token)) {
+                        if (isOpenSquareParantheses(openSquareBracket)) {
                             int endOfSquareSubExpression = runTokenizerToEndOfSquareSubExpression(tokenizer, tokenizerPosition);
                             String subExpression = expr.substring(tokenizerPosition, endOfSquareSubExpression);
                             tokenizerPosition = endOfSquareSubExpression;
-                            float arrayIndex = evaluate(subExpression);
-                            lhs = arraySymbol.values[(int) arrayIndex];
+                            int arrayIndex = (int) evaluate(subExpression);
+                            float arrayValue = arrayValue(arraySymbol, arrayIndex);
+                            System.out.println("Evaluated array " + arraySymbol.name + "[" + arrayIndex + "] to " + arrayValue);
+                            lhs = performOperation(lhs, arrayValue, token);
                         }
                     }
                 }
@@ -218,15 +222,16 @@ public class Expression {
                     System.out.println("Evaluated lhs '" + token + "' to " + lhs);
                 } catch (NoSuchElementException e) {
                     ArraySymbol arraySymbol = findArray(token);
-                    token = tokenizer.nextToken();
+                    String openSquareBracket = tokenizer.nextToken();
                     tokenizerPosition += token.length();
                     assert arraySymbol != null;
-                    if (isOpenSquareParantheses(token)) {
+                    if (isOpenSquareParantheses(openSquareBracket)) {
                         int endOfSquareSubExpression = runTokenizerToEndOfSquareSubExpression(tokenizer, tokenizerPosition);
                         String subExpression = expr.substring(tokenizerPosition, endOfSquareSubExpression);
                         tokenizerPosition = endOfSquareSubExpression;
-                        float arrayIndex = evaluate(subExpression);
-                        lhs = arraySymbol.values[(int) arrayIndex];
+                        int arrayIndex = (int) evaluate(subExpression);
+                        lhs = arrayValue(arraySymbol, arrayIndex);
+                        System.out.println("Evaluated array " + arraySymbol.name + "[" + arrayIndex + "] to " + lhs);
                     }
                 }
             }
