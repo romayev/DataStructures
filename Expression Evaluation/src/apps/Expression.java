@@ -1,9 +1,7 @@
 package apps;
 
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.*;
-import java.util.regex.*;
 
 import structures.Stack;
 
@@ -89,6 +87,7 @@ public class Expression {
     private boolean isOperation(String token) {
         return token.equals("+") || token.equals("-") || token.equals("*") || token.equals("/");
     }
+
     /**
      * Loads values for symbols in the expression
      * 
@@ -149,38 +148,66 @@ public class Expression {
         return evaluate(expr);
     }
 
+    // (1+(2+3*4+5)*6)
     private float evaluate(String expr) throws IllegalArgumentException {
         System.out.println();
         System.out.println("Evaluating: " + expr);
 
         StringTokenizer tokenizer = new StringTokenizer(expr, delims, true);
-        String token = tokenizer.nextToken();
-        int tokenizerPosition = token.length();
-
-        float lhs = eval(token);
-        System.out.println("Evaluated lhs '" + token + "' to " + lhs);
-
+        int tokenizerPosition = 0;
+        float lhs = 0;
         while (tokenizer.hasMoreTokens()) {
-            String operation = tokenizer.nextToken();
-            tokenizerPosition += operation.length();
-//            if (isOpenParantheses(operation)) {
-//                float inparentheses =
-//               lhs = performOperation(lhs, tokenizer, operation);
-//               // obviously not zero but I need to figure out a way to solve whatever is before the closed parentheses.
-//            }
-            if (isHigherOrderOperator(operation)) {
+            String token = tokenizer.nextToken();
+            tokenizerPosition += token.length();
+            if (isOpenParantheses(token)) {
+                int endOfSubExpression = runTokenizerToEndOfSubExpression(tokenizer, tokenizerPosition);
+                String subExpression = expr.substring(tokenizerPosition, endOfSubExpression);
+                tokenizerPosition = endOfSubExpression;
+                lhs = evaluate(subExpression);
+            } else if (isHigherOrderOperator(token)) {
                 String nextToken = tokenizer.nextToken();
                 tokenizerPosition += nextToken.length();
-                float next = eval(nextToken);
-                lhs = performOperation(lhs, next, operation);
-            } else {
+                if (isOpenParantheses(nextToken)) {
+                    int endOfSubExpression = runTokenizerToEndOfSubExpression(tokenizer, tokenizerPosition);
+                    String subExpression = expr.substring(tokenizerPosition, endOfSubExpression);
+                    tokenizerPosition = endOfSubExpression;
+                    float subExpressionValue = evaluate(subExpression);
+                    lhs = performOperation(lhs, subExpressionValue, token);
+                } else {
+                    float next = eval(nextToken);
+                    lhs = performOperation(lhs, next, token);
+                }
+            } else if (isOperation(token)) {
                 String rhsExpression = expr.substring(tokenizerPosition, expr.length());
                 float rhs = evaluate(rhsExpression);
-                return performOperation(lhs, rhs, operation);
+                return performOperation(lhs, rhs, token);
+            } else {
+                lhs = eval(token);
+                System.out.println("Evaluated lhs '" + token + "' to " + lhs);
             }
         }
         return lhs;
     }
+
+    // (1+2+(3+(a+b)+4+(5+6))
+    private int runTokenizerToEndOfSubExpression(StringTokenizer tokenizer, int tokenizerPosition) {
+        int count = 1;
+        while (tokenizer.hasMoreTokens()) {
+            String next = tokenizer.nextToken();
+            tokenizerPosition += next.length();
+            if (next.equals("(")) {
+                count++;
+            }
+            if (next.equals(")")) {
+                count--;
+                if (count == 0) {
+                    break;
+                }
+            }
+        }
+        return tokenizerPosition - 1;
+    }
+
     private boolean isClosedParantheses(String token) { return token.equals(")"); }
     private boolean isOpenParantheses(String token) { return token.equals("("); }
     private boolean isHigherOrderOperator(String token) {
