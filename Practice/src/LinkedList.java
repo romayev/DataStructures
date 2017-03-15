@@ -61,4 +61,8 @@ public class LinkedList {
             
         }
     }
+
+    public void moveOneUp() {
+
+    }
 }

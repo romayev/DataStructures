@@ -1,52 +1,43 @@
-import sun.awt.image.ImageWatched;
-
 /**
- * Created by Sasha on 2/24/17.
+ * Created by Sasha on 3/15/17.
  */
-class LinkedList2 {
-    private IntNode front;
-    int size;
+public class NodeLinkedList<T> {
 
-    LinkedList2(int[] array) {
-        IntNode curr;
-        IntNode hold = null;
-        size = array.length;
+    private Node front;
+
+    NodeLinkedList(int[] array) {
+        Node curr;
+        Node hold = null;
+//            size = array.length;
         for (int i = array.length - 1; i >= 0; i--) {
-            curr = new IntNode();
+            curr = new Node();
             curr.next = hold;
             curr.value = array[i];
             hold = curr;
-//            if (i == array.length -1) {
-//                curr.next = null;
-//            }
             if (i == 0) {
                 front = curr;
             }
         }
     }
-
-
     void print() {
-        IntNode curr = front;
+        Node curr = front;
         while (curr != null) {
             System.out.print(curr.value + " ");
             curr = curr.next;
         }
         System.out.println();
     }
-
-
-    void delete(int target) {
-        IntNode prev;
-        IntNode curr;
+    void delete(T target) {
+        Node prev;
+        Node curr;
         if (front == null) {
             return;                             //<T> isn't primitive type
         }                                      //.equals bc object
-        if (front.next == null && front.value == target) {
+        if (front.next == null && front.value.equals(target)) {
             front = null;
             return;
         }
-        if (front.value == target) {
+        if (front.value.equals(target)) {
             front = front.next;
             return;
         }
@@ -54,7 +45,7 @@ class LinkedList2 {
         curr = front.next;
 
         while (curr != null) {
-            if (curr.value == target) {
+            if (curr.value.equals(target)) {
                 prev.next = curr.next;
                 return;
             } else {
@@ -64,17 +55,16 @@ class LinkedList2 {
         }
 
     }
-
     // 1->2->3->4->5->6->7
     void deleteEveryOther() {
         int counter = 0;
-        IntNode curr = front;
+        Node curr = front;
         while (curr != null) {
             if (counter % 2 == 0) {
                 curr = curr.next;
-                counter++;
+                counter++;                 
             } else {
-                int delete = curr.value;
+                T delete = curr.value;
                 delete(delete);
                 curr = curr.next;
                 counter++;
@@ -83,27 +73,27 @@ class LinkedList2 {
     }
 
     void deleteEveryOther2() {
-        IntNode curr = front;
+        Node curr = front;
         while (curr != null && curr.next != null) {
-            IntNode next = curr.next;
+            Node next = curr.next;
             curr.next = next.next;
             curr = curr.next;
         }
     }
 
     void deleteEveryOther3() {
-        for (IntNode curr = front; curr != null && curr.next != null; curr = curr.next) {
-            IntNode next = curr.next;
+        for (Node curr = front; curr != null && curr.next != null; curr = curr.next) {
+            Node next = curr.next;
             curr.next = next.next;
         }
     }
 
     // 1->2->3->4
     void reverse() {
-        IntNode current = front;
-        IntNode prev = null;
+        Node current = front;
+        Node prev = null;
         while (current != null) {
-            IntNode next = current.next;
+            Node next = current.next;
             current.next = prev;
             prev = current;
             current = next;
@@ -111,20 +101,19 @@ class LinkedList2 {
         front = prev;
     }
 
-    void deleteSingle(int target){
-        if (front.value == target) {
+    void deleteSingle(T target) {
+        if (front.value.equals(target)) {
             if (front.next == null) {
                 return;
-            }
-            else {
+            } else {
                 front = front.next;
             }
             return;
         }
-        IntNode prev = front;
-        IntNode curr = front.next;
+        Node prev = front;
+        Node curr = front.next;
         while (curr != null) {
-            if (curr.value == target) {
+            if (curr.value.equals(target)) {
                 prev.next = curr.next;
             }
             prev = curr;
@@ -133,17 +122,17 @@ class LinkedList2 {
     }
 
     // 1->2->3->4
-    void moveUpOne(int target) {
-        if (front.value == target) {
+    void moveUpOne(T target) {
+        if (front.value.equals(target)) {
             return;
         }
 
-        IntNode third = front.next;
-        IntNode second = front;
-        IntNode first = null;
+        Node third = front.next;
+        Node second = front;
+        Node first = null;
 
         while (third != null) {
-            if (third.value == target) {
+            if (third.value.equals(target)) {
                 swapNodes(first, second);
                 break;
             }
@@ -153,12 +142,12 @@ class LinkedList2 {
         }
     }
 
-    void swapNodes(IntNode first, IntNode second) {
+    void swapNodes(Node first, Node second) {
         if (second == null || second.next == null) {
             System.out.println("Second or third is null, should never happen");
             return;
         }
-        IntNode third = second.next;
+        Node third = second.next;
         second.next = third.next;
         third.next = second;
         if (first != null) {
@@ -167,4 +156,6 @@ class LinkedList2 {
             front = third;
         }
     }
+
+
 }
