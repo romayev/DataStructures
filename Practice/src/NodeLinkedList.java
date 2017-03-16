@@ -3,7 +3,11 @@
  */
 public class NodeLinkedList<T> {
 
-    private Node front;
+    private Node<T> front;
+    int size;
+
+    public NodeLinkedList() {
+    }
 
     NodeLinkedList(int[] array) {
         Node curr;
@@ -19,8 +23,47 @@ public class NodeLinkedList<T> {
             }
         }
     }
+
+    void size() {
+        int counter = 0;
+        while (front != null) {
+            front= front.next;
+            counter++;
+        }
+
+    }
+    void addToEnd(T node) {
+        reverse();
+        node.next = front;
+        node = front;
+        reverse();
+    }
+    boolean isEmpty() {
+        return front == null;
+    }
+
+    T deleteFirstNode() {
+        return deleteSingle(front.value);
+    }
+
+    void splitEven() {
+        T[] secondArray = new T[size/2];
+        int counter = 0;
+        Node<T> curr = front;
+        for (int i = 0; i < size; i++) {
+        while (curr != null) {
+            if (counter % 2 == 0) {
+                curr = curr.next;
+                counter++;
+            } else {
+                T[i] = curr;
+                curr = curr.next;
+                counter++;
+            }
+        }
+    }
     void print() {
-        Node curr = front;
+        Node<T> curr = front;
         while (curr != null) {
             System.out.print(curr.value + " ");
             curr = curr.next;
@@ -58,7 +101,7 @@ public class NodeLinkedList<T> {
     // 1->2->3->4->5->6->7
     void deleteEveryOther() {
         int counter = 0;
-        Node curr = front;
+        Node<T> curr = front;
         while (curr != null) {
             if (counter % 2 == 0) {
                 curr = curr.next;
@@ -72,8 +115,9 @@ public class NodeLinkedList<T> {
         }
     }
 
+
     void deleteEveryOther2() {
-        Node curr = front;
+        Node<T> curr = front;
         while (curr != null && curr.next != null) {
             Node next = curr.next;
             curr.next = next.next;
