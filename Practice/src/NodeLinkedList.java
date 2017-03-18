@@ -24,44 +24,87 @@ public class NodeLinkedList<T> {
         }
     }
 
-    void size() {
+
+
+    int size() {
         int counter = 0;
         while (front != null) {
-            front= front.next;
+            front = front.next;
             counter++;
         }
+        return counter;
+    }
 
+    void addToEnd(T item) {
+        Node<T> node = new Node<T>();
+        node.value = item;
+        Node<T> last = findLastNode();
+        if (last == null) {
+            front = node;
+        } else {
+            last.next = node;
+        }
     }
-    void addToEnd(T node) {
-        reverse();
-        node.next = front;
-        node = front;
-        reverse();
+
+    void addToFront(T item) {
+        Node<T> node = new Node<T>();
+        node.value = item;
+        if (front == null) {
+            front = node;
+        } else {
+            node.next = front;
+            front = node;
+        }
     }
+
+    T returnFront() {
+        if (front == null) {
+            return null;
+        } else {
+            return front.value;
+        }
+    }
+
+    private Node<T> findLastNode() {
+        if (front == null) {
+            return null;
+        }
+        Node<T> curr = front;
+        while (curr.next != null) {
+            curr = curr.next;
+        }
+        return curr;
+    }
+
     boolean isEmpty() {
         return front == null;
     }
 
     T deleteFirstNode() {
-        return deleteSingle(front.value);
+        if (front == null) {
+            return null;
+        }
+        T value = front.value;
+        front = front.next;
+        return value;
     }
 
-    void splitEven() {
-        T[] secondArray = new T[size/2];
-        int counter = 0;
-        Node<T> curr = front;
-        for (int i = 0; i < size; i++) {
-        while (curr != null) {
-            if (counter % 2 == 0) {
-                curr = curr.next;
-                counter++;
-            } else {
-                T[i] = curr;
-                curr = curr.next;
-                counter++;
-            }
-        }
-    }
+//    void splitEven() {
+//        T[] secondArray = new T[size/2];
+//        int counter = 0;
+//        Node<T> curr = front;
+//        for (int i = 0; i < size; i++) {
+//        while (curr != null) {
+//            if (counter % 2 == 0) {
+//                curr = curr.next;
+//                counter++;
+//            } else {
+//                T[i] = curr;
+//                curr = curr.next;
+//                counter++;
+//            }
+//        }
+//    }
     void print() {
         Node<T> curr = front;
         while (curr != null) {
@@ -70,6 +113,7 @@ public class NodeLinkedList<T> {
         }
         System.out.println();
     }
+
     void delete(T target) {
         Node prev;
         Node curr;

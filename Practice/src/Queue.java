@@ -11,10 +11,12 @@ public class Queue<T> {
     public void enqueue(T item) {
         linkedList.addToEnd(item);
         size++;
-        //add to end
-
     }
-    
+
+    public T peek() {
+        return linkedList.returnFront();
+    }
+
     public T dequeue() throws NoSuchElementException {
         T node = linkedList.deleteFirstNode();
         if (node == null) {
@@ -25,12 +27,28 @@ public class Queue<T> {
         }
     }
 
-    public boolean isEmpty() {
-        return linkedList.isEmpty();
+    public void print() {
+        linkedList.print();
     }
-    public void evenSplit() {
 
+    public boolean isEmpty() {
+        return size == 0;
     }
+
+    public Queue<T> evenSplit() {
+        Queue<T> secondQueue = new Queue<T>();
+        int boundary = size;
+        for (int i = 0; i < boundary; i++) {
+            T value = dequeue();
+            if (i % 2 == 0) {
+                enqueue(value);
+            } else {
+                secondQueue.enqueue(value);
+            }
+        }
+        return secondQueue;
+    }
+
     public int size() {
         return size;
     }
