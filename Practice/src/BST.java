@@ -90,6 +90,19 @@ public class BST<T extends Comparable<T>> {
         }
     }
 
+    void reverseKeys(BSTNode<T> root) {
+        if (root == null) {
+            return;
+        }
+        
+        BSTNode<T> holder = root.left;
+        
+        root.left = root.right;
+        root.right = holder;
+        reverseKeys(root.left);
+        reverseKeys(root.right);
+    }
+
 
 }
 
