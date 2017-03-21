@@ -43,7 +43,7 @@ public class IntervalTree {
 		root = buildTreeNodes(sortedEndPoints);
 		
 		// map intervals to the tree nodes
-		mapIntervalsToTree(intervalsLeft, intervalsRight);
+		//mapIntervalsToTree(intervalsLeft, intervalsRight);
 	}
 	
 	/**
@@ -153,6 +153,10 @@ public class IntervalTree {
 			array.add(value);
 		}
 	}
+
+	static int incrementIndex(int index, int size) {
+		return 0;
+	}
 	/**
 	 * Builds the interval tree structure given a sorted array list of end points
 	 * without duplicates.
@@ -161,9 +165,53 @@ public class IntervalTree {
 	 * @return Root of the tree structure
 	 */
 	public static IntervalTreeNode buildTreeNodes(ArrayList<Integer> endPoints) {
-		// COMPLETE THIS METHOD
-		// THE FOLLOWING LINE HAS BEEN ADDED TO MAKE THE PROGRAM COMPILE
-		return null;
+		float p;
+		Queue<IntervalTreeNode> Q = new Queue<IntervalTreeNode>();
+
+		for (int i = 0; i < endPoints.size(); i++) {
+			p = endPoints.get(i);
+
+			IntervalTreeNode node = new IntervalTreeNode(p, p, p);
+			node.leftIntervals = new ArrayList<Interval>();
+			node.rightIntervals = new ArrayList<Interval>();
+			Q.enqueue(node);
+		}
+
+		int s = Q.size();
+		System.out.println("Size:" + s);
+		IntervalTreeNode root;
+		while (s > 0) {
+			if (s == 1) {
+				root = Q.dequeue();
+				System.out.println("Root in s==1: " + root.toString());
+				return root;
+			} else {
+				int temps = s;
+				System.out.println("Temp Size: " + temps);
+				while (temps > 1) {
+					IntervalTreeNode T1 = Q.dequeue();
+					IntervalTreeNode T2 = Q.dequeue();
+
+					float v1 = T1.maxSplitValue;
+					float v2 = T2.minSplitValue;
+
+					IntervalTreeNode N = new IntervalTreeNode((v1 + v2) / 2, T1.minSplitValue, T2.maxSplitValue);
+					System.out.println("Node N: " + N.toString());
+					N.leftChild = T1;
+					N.rightChild = T2;
+					Q.enqueue(N);
+					temps = temps - 2;
+				}
+				if (temps == 1) {
+					Q.enqueue(Q.dequeue());
+				}
+				s = Q.size();
+				System.out.println("Updated Size: " + s);
+			}
+		}
+		root = Q.dequeue();
+		System.out.println("Root: " + root.toString());
+		return root;
 	}
 	
 	/**
@@ -173,7 +221,7 @@ public class IntervalTree {
 	 * @param rightSortedIntervals Array list of intervals sorted according to right endpoints
 	 */
 	public void mapIntervalsToTree(ArrayList<Interval> leftSortedIntervals, ArrayList<Interval> rightSortedIntervals) {
-		// COMPLETE THIS METHOD
+		
 	}
 	
 	/**
