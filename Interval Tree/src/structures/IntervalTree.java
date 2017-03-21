@@ -97,38 +97,62 @@ public class IntervalTree {
 
 	public static ArrayList<Integer> getSortedEndPoints(ArrayList<Interval> leftSortedIntervals, ArrayList<Interval> rightSortedIntervals) {
         ArrayList<Integer> points = new ArrayList<Integer>();
-        int pointIndex = 0;
         int rightIndex = 0;
         int leftIndex = 0;
-        int left = 0;
-        int right = 0;
+        int left;
+        int right;
         Interval leftInterval;
         Interval rightInterval;
 
-        while (leftIndex < leftSortedIntervals.size() && rightIndex < rightSortedIntervals.size()) {
-            leftInterval = leftSortedIntervals.get(leftIndex);
-            left = leftInterval.leftEndPoint;
-            rightInterval = rightSortedIntervals.get(rightIndex);
-            right = rightInterval.rightEndPoint;
+        int size = leftSortedIntervals.size();
 
-            if (left == right) {
-                points.set(pointIndex, left);
-                rightIndex++;
-                leftIndex++;
-            } else if (left > right) {
-                points.set(pointIndex, right);
-                rightIndex++;
-            } else if (left < right) {
-                points.set(pointIndex, left);
-                leftIndex++;
-            }
-            pointIndex++;
-        }
+        boolean atEndOfLeft = false;
+        boolean atEndOfRight = false;
 
-        System.out.println(points);
+		while (!(atEndOfLeft && atEndOfRight)) {
+			leftInterval = leftSortedIntervals.get(leftIndex);
+			left = leftInterval.leftEndPoint;
+			System.out.println("left in first while loop: " + left);
+			rightInterval = rightSortedIntervals.get(rightIndex);
+			right = rightInterval.rightEndPoint;
+			System.out.println("right in first while loop: " + right);
+
+        	if (atEndOfLeft) {
+        		add(right, points);
+        		rightIndex++;
+			} else if (atEndOfRight) {
+				add(left, points);
+				leftIndex++;
+			} else if (left == right) {
+				add(left, points);
+				rightIndex++;
+				leftIndex++;
+			} else if (left > right) {
+				add(right, points);
+				rightIndex++;
+			} else if (left < right) {
+				add(left, points);
+				leftIndex++;
+			}
+			if (leftIndex == size) {
+        		leftIndex--;
+				atEndOfLeft = true;
+			}
+
+			if (rightIndex == size) {
+        		rightIndex--;
+				atEndOfRight = true;
+			}
+		}
+        System.out.println("Points: " + points);
         return points;
 	}
-	
+
+	static void add(int value, ArrayList<Integer> array) {
+		if (array.isEmpty() || array.get(array.size() -  1) != value) {
+			array.add(value);
+		}
+	}
 	/**
 	 * Builds the interval tree structure given a sorted array list of end points
 	 * without duplicates.
