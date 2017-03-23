@@ -1,5 +1,6 @@
 package structures;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -272,10 +273,51 @@ public class IntervalTree {
 	 * @param q The query interval for which intersections are to be found
 	 * @return Array list of all intersecting intervals; size is 0 if there are no intersections
 	 */
+
+
 	public ArrayList<Interval> findIntersectingIntervals(Interval q) {
-		// COMPLETE THIS METHOD
-		// THE FOLLOWING LINE HAS BEEN ADDED TO MAKE THE PROGRAM COMPILE
-		return null;
+
+		 return queryTree(root, q);
+
+	}
+
+	private ArrayList<Interval> queryTree(IntervalTreeNode node, Interval interval) {
+		ArrayList<Interval> resultList = new ArrayList<Interval>();
+		float splitVal = node.splitValue;
+		ArrayList<Interval> leftSort = new ArrayList<Interval>();
+		ArrayList<Interval> rightSort = new ArrayList<Interval>();
+
+		IntervalTreeNode leftSub = node.leftChild;
+		IntervalTreeNode rightSub = node.rightChild;
+
+		//if root is leaf return null
+		if (node.rightChild == null) {
+			//return empty list
+			return resultList;
+		}
+
+		if (interval.contains(splitVal)) {
+			for (Interval inter : leftSort) {
+				resultList.add(inter);
+			}
+			resultList.addAll(queryTree(leftSub, interval));
+			resultList.addAll(queryTree(rightSub, interval));
+		} else if (splitVal < interval.leftEndPoint) {
+			int rSortSize = rightSort.size();
+			while (rSortSize >= 0 && rightSort.get(rSortSize).intersects(interval)) {
+				resultList.add(rightSort.get(rSortSize));
+				rSortSize--;
+			}
+			resultList.addAll(queryTree(rightSub, interval));
+		} else if (splitVal > interval.rightEndPoint) {
+			int i = 0;
+			while (i < leftSort.size() && leftSort.get(i).intersects(interval)) {
+				resultList.add(leftSort.get(i));
+				i++;
+			}
+			resultList.addAll(queryTree(leftSub, interval));
+		}
+		 return resultList;
 	}
 
 }
