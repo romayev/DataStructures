@@ -284,8 +284,8 @@ public class IntervalTree {
 	private ArrayList<Interval> queryTree(IntervalTreeNode node, Interval interval) {
 		ArrayList<Interval> resultList = new ArrayList<Interval>();
 		float splitVal = node.splitValue;
-		ArrayList<Interval> leftSort = new ArrayList<Interval>();
-		ArrayList<Interval> rightSort = new ArrayList<Interval>();
+		ArrayList<Interval> leftSort = node.leftIntervals;
+		ArrayList<Interval> rightSort = node.rightIntervals;
 
 		IntervalTreeNode leftSub = node.leftChild;
 		IntervalTreeNode rightSub = node.rightChild;
@@ -303,7 +303,7 @@ public class IntervalTree {
 			resultList.addAll(queryTree(leftSub, interval));
 			resultList.addAll(queryTree(rightSub, interval));
 		} else if (splitVal < interval.leftEndPoint) {
-			int rSortSize = rightSort.size();
+			int rSortSize = rightSort.size() - 1;
 			while (rSortSize >= 0 && rightSort.get(rSortSize).intersects(interval)) {
 				resultList.add(rightSort.get(rSortSize));
 				rSortSize--;
