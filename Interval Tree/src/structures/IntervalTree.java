@@ -43,9 +43,25 @@ public class IntervalTree {
 		root = buildTreeNodes(sortedEndPoints);
 		
 		// map intervals to the tree nodes
-		//mapIntervalsToTree(intervalsLeft, intervalsRight);
+		mapIntervalsToTree(intervalsLeft, intervalsRight);
+		System.out.println("Finished mapping intervals");
+		print(root);
 	}
-	
+
+	private void print(IntervalTreeNode node) {
+		if (node == null) {
+			return;
+		}
+		System.out.println(node.toString());
+		if (node.leftChild != null) {
+			System.out.println("Left:");
+			print(node.leftChild);
+		}
+		if (node.rightChild != null) {
+			System.out.println("Right:");
+			print(node.rightChild);
+		}
+	}
 	/**
 	 * Returns the root of this interval tree.
 	 * 
@@ -196,6 +212,8 @@ public class IntervalTree {
 					float v2 = T2.minSplitValue;
 
 					IntervalTreeNode N = new IntervalTreeNode((v1 + v2) / 2, T1.minSplitValue, T2.maxSplitValue);
+					N.leftIntervals = new ArrayList<Interval>();
+					N.rightIntervals = new ArrayList<Interval>();
 					System.out.println("Node N: " + N.toString());
 					N.leftChild = T1;
 					N.rightChild = T2;
@@ -213,15 +231,39 @@ public class IntervalTree {
 		System.out.println("Root: " + root.toString());
 		return root;
 	}
-	
+
 	/**
-	 * Maps a set of intervals to the nodes of this interval tree. 
+	 * Maps a set of intervals to the nodes of this interval tree.
 	 * 
 	 * @param leftSortedIntervals Array list of intervals sorted according to left endpoints
 	 * @param rightSortedIntervals Array list of intervals sorted according to right endpoints
 	 */
 	public void mapIntervalsToTree(ArrayList<Interval> leftSortedIntervals, ArrayList<Interval> rightSortedIntervals) {
-		
+		for (Interval interval: leftSortedIntervals) {
+			IntervalTreeNode node = searchTree(interval, root);
+			assert node != null;
+			node.leftIntervals.add(interval);
+		}
+		for (Interval interval: rightSortedIntervals) {
+			IntervalTreeNode node = searchTree(interval, root);
+			assert node != null;
+			node.rightIntervals.add(interval);
+		}
+	}
+
+	 private IntervalTreeNode searchTree(Interval interval, IntervalTreeNode root) {
+		if (root == null) {
+			return null;
+		}
+		if (interval.contains(root.splitValue)) {
+			return root;
+		}
+		int maxValue = interval.rightEndPoint;
+		if (root.splitValue < maxValue) {
+			return searchTree(interval, root.rightChild);
+		} else {
+			return searchTree(interval, root.leftChild);
+		}
 	}
 	
 	/**
