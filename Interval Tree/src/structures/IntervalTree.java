@@ -46,7 +46,7 @@ public class IntervalTree {
 		// map intervals to the tree nodes
 		mapIntervalsToTree(intervalsLeft, intervalsRight);
 		System.out.println("Finished mapping intervals");
-		print(root);
+		//print(root);
 	}
 
 	private void print(IntervalTreeNode node) {
@@ -122,17 +122,17 @@ public class IntervalTree {
         Interval rightInterval;
 
         int size = leftSortedIntervals.size();
-
+		if (size == 0) {
+			return points;
+		}
         boolean atEndOfLeft = false;
         boolean atEndOfRight = false;
 
 		while (!(atEndOfLeft && atEndOfRight)) {
 			leftInterval = leftSortedIntervals.get(leftIndex);
 			left = leftInterval.leftEndPoint;
-			System.out.println("left in first while loop: " + left);
 			rightInterval = rightSortedIntervals.get(rightIndex);
 			right = rightInterval.rightEndPoint;
-			System.out.println("right in first while loop: " + right);
 
         	if (atEndOfLeft) {
         		add(right, points);
@@ -183,53 +183,47 @@ public class IntervalTree {
 	 */
 	public static IntervalTreeNode buildTreeNodes(ArrayList<Integer> endPoints) {
 		float p;
-		Queue<IntervalTreeNode> Q = new Queue<IntervalTreeNode>();
+		Queue<IntervalTreeNode> queue = new Queue<IntervalTreeNode>();
 
-		for (int i = 0; i < endPoints.size(); i++) {
-			p = endPoints.get(i);
+		for (Integer endPoint : endPoints) {
+			p = endPoint;
 
 			IntervalTreeNode node = new IntervalTreeNode(p, p, p);
 			node.leftIntervals = new ArrayList<Interval>();
 			node.rightIntervals = new ArrayList<Interval>();
-			Q.enqueue(node);
+			queue.enqueue(node);
 		}
 
-		int s = Q.size();
-		System.out.println("Size:" + s);
+		int size = queue.size();
 		IntervalTreeNode root;
-		while (s > 0) {
-			if (s == 1) {
-				root = Q.dequeue();
-				System.out.println("Root in s==1: " + root.toString());
+		while (size > 0) {
+			if (size == 1) {
+				root = queue.dequeue();
 				return root;
 			} else {
-				int temps = s;
-				System.out.println("Temp Size: " + temps);
-				while (temps > 1) {
-					IntervalTreeNode T1 = Q.dequeue();
-					IntervalTreeNode T2 = Q.dequeue();
+				int tempSize = size;
+				while (tempSize > 1) {
+					IntervalTreeNode nodeOne = queue.dequeue();
+					IntervalTreeNode nodeTwo = queue.dequeue();
 
-					float v1 = T1.maxSplitValue;
-					float v2 = T2.minSplitValue;
+					float v1 = nodeOne.maxSplitValue;
+					float v2 = nodeTwo.minSplitValue;
 
-					IntervalTreeNode N = new IntervalTreeNode((v1 + v2) / 2, T1.minSplitValue, T2.maxSplitValue);
-					N.leftIntervals = new ArrayList<Interval>();
-					N.rightIntervals = new ArrayList<Interval>();
-					System.out.println("Node N: " + N.toString());
-					N.leftChild = T1;
-					N.rightChild = T2;
-					Q.enqueue(N);
-					temps = temps - 2;
+					IntervalTreeNode node = new IntervalTreeNode((v1 + v2) / 2, nodeOne.minSplitValue, nodeTwo.maxSplitValue);
+					node.leftIntervals = new ArrayList<Interval>();
+					node.rightIntervals = new ArrayList<Interval>();
+					node.leftChild = nodeOne;
+					node.rightChild = nodeTwo;
+					queue.enqueue(node);
+					tempSize = tempSize - 2;
 				}
-				if (temps == 1) {
-					Q.enqueue(Q.dequeue());
+				if (tempSize == 1) {
+					queue.enqueue(queue.dequeue());
 				}
-				s = Q.size();
-				System.out.println("Updated Size: " + s);
+				size = queue.size();
 			}
 		}
-		root = Q.dequeue();
-		System.out.println("Root: " + root.toString());
+		root = queue.dequeue();
 		return root;
 	}
 
@@ -276,9 +270,7 @@ public class IntervalTree {
 
 
 	public ArrayList<Interval> findIntersectingIntervals(Interval q) {
-
 		 return queryTree(root, q);
-
 	}
 
 	private ArrayList<Interval> queryTree(IntervalTreeNode node, Interval interval) {

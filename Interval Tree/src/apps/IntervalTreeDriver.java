@@ -12,8 +12,6 @@ public class IntervalTreeDriver {
 	public static void main(String[] args) throws IOException {
 		System.out.print("Enter intervals file name => ");
 		String infile = keyboard.readLine();
-		// TODO: remove
-		infile = "intervals.txt";
 		BufferedReader br = new BufferedReader(new FileReader(infile));
 		ArrayList<Interval> intervals = readIntervals(br);
 		System.out.println("Read the following intervals:");
