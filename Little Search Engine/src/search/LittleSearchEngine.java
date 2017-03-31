@@ -51,7 +51,7 @@ public class LittleSearchEngine {
 	
 	/**
 	 * This is a hash table of all keywords. The key is the actual keyword, and the associated value is
-	 * an array list of all occurrences of the keyword in documents. The array list is maintained in descending
+	 * an array list of all occurrences of the keyword in documents. The array list is etained in descending
 	 * order of occurrence frequencies.
 	 */
 	HashMap<String,ArrayList<Occurrence>> keywordsIndex;
@@ -153,9 +153,48 @@ public class LittleSearchEngine {
 	 * @param word Candidate word
 	 * @return Keyword (word without trailing punctuation, LOWER CASE)
 	 */
+
+	private boolean isPunctuation(char character) {
+		return character == '.' || character == ',' || character == '?' || character == '!' || character == ':' || character == ';';
+	}
+
+	private Character getLastCharacter(String word) {
+//		char ending = word.charAt(word.length())
+		return null;
+	}
+
+	private String trimLastCharacter(String word) {
+		return word;
+	}
+
 	public String getKeyWord(String word) {
-		// COMPLETE THIS METHOD
-		// THE FOLLOWING LINE HAS BEEN ADDED TO MAKE THE METHOD COMPILE
+		System.out.println("Word: " + word + " length: " + word.length());
+		char ending = word.charAt(word.length() - 1);
+
+
+		while (word.length() >= 1 && isPunctuation(ending)) {
+			if (word.length() == 1 && isPunctuation(ending)) {
+				return null;
+			}
+			word = word.substring(0, word.length() - 2);
+			if (word.length() == 0) {
+				break;
+			}
+			ending = word.charAt(word.length() - 1);
+		}
+
+		for (int i = 0; i < word.length(); i++) {
+			char current = word.charAt(i);
+			if (!Character.isLetter(current)) {
+				return null;
+			}
+		}
+
+		word = word.toLowerCase();
+
+		if (noiseWords.get(word) != null) {
+			return word;
+		}
 		return null;
 	}
 	
