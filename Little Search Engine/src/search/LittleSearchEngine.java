@@ -108,9 +108,25 @@ public class LittleSearchEngine {
 	 */
 	public HashMap<String,Occurrence> loadKeyWords(String docFile) 
 	throws FileNotFoundException {
-		// COMPLETE THIS METHOD
-		// THE FOLLOWING LINE HAS BEEN ADDED TO MAKE THE METHOD COMPILE
-		return null;
+		HashMap<String,Occurrence> keywords = new HashMap<String,Occurrence>();
+
+		Scanner keys = new Scanner(new File(docFile));
+		while (keys.hasNext()) {
+			String word = keys.next();
+			String keyword = getKeyWord(word);
+			if (keyword == null) {
+				continue;
+			}
+			if (!keywords.containsKey(keyword)) {
+				Occurrence occurrence = new Occurrence(docFile, 1);
+				keywords.put(keyword, occurrence);
+			} else {
+				Occurrence occurrence = keywords.get(keyword);
+				occurrence.frequency++;
+			}
+
+		}
+		return keywords;
 	}
 	
 	/**
