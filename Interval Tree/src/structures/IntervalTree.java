@@ -1,6 +1,5 @@
 package structures;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -289,9 +288,7 @@ public class IntervalTree {
 		}
 
 		if (interval.contains(splitVal)) {
-			for (Interval inter : leftSort) {
-				resultList.add(inter);
-			}
+			resultList.addAll(leftSort);
 			resultList.addAll(queryTree(leftSub, interval));
 			resultList.addAll(queryTree(rightSub, interval));
 		} else if (splitVal < interval.leftEndPoint) {
