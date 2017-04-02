@@ -159,30 +159,30 @@ public class LittleSearchEngine {
 	}
 
 	private Character getLastCharacter(String word) {
-//		char ending = word.charAt(word.length())
-		return null;
+		char ending = word.charAt(word.length()-1);
+
+		return ending;
 	}
 
 	private String trimLastCharacter(String word) {
-		return word;
+		char ending = getLastCharacter(word);
+		while (isPunctuation(ending)) {
+				if (word.length() == 1) {
+					return null;
+				}
+				word = word.substring(0, word.length() - 2);
+				if (word.length() == 0) {
+					break;
+				}
+				ending = word.charAt(word.length() - 1);
+			}
+			return word;
 	}
 
 	public String getKeyWord(String word) {
-		System.out.println("Word: " + word + " length: " + word.length());
-		char ending = word.charAt(word.length() - 1);
-
-
-		while (word.length() >= 1 && isPunctuation(ending)) {
-			if (word.length() == 1 && isPunctuation(ending)) {
-				return null;
-			}
-			word = word.substring(0, word.length() - 2);
-			if (word.length() == 0) {
-				break;
-			}
-			ending = word.charAt(word.length() - 1);
-		}
-
+		word = word.trim();
+		trimLastCharacter(word);
+		
 		for (int i = 0; i < word.length(); i++) {
 			char current = word.charAt(i);
 			if (!Character.isLetter(current)) {
@@ -193,9 +193,9 @@ public class LittleSearchEngine {
 		word = word.toLowerCase();
 
 		if (noiseWords.get(word) != null) {
-			return word;
+			return null;
 		}
-		return null;
+		return word;
 	}
 	
 	/**
@@ -211,9 +211,41 @@ public class LittleSearchEngine {
 	 *         your code - it is not used elsewhere in the program.
 	 */
 	public ArrayList<Integer> insertLastOccurrence(ArrayList<Occurrence> occs) {
-		// COMPLETE THIS METHOD
-		// THE FOLLOWING LINE HAS BEEN ADDED TO MAKE THE METHOD COMPILE
-		return null;
+		ArrayList<Integer> array = new ArrayList<Integer>();
+		if (occs.size() == 1) {
+			return null;
+		}
+		else{
+			Occurrence temp = occs.get(occs.size() - 1);
+			occs.remove(occs.size() - 1);
+			int high = 0;
+			int low = occs.size()-1;
+			int middle = 0;
+			int	i = temp.frequency;
+			while(high <= low) {
+				middle = (low + high) / 2;
+				Occurrence mid = occs.get(middle);
+				int end = mid.frequency;
+				if(end == i) {
+					array.add(middle);
+					break;
+				}
+				if(end < i) {
+					low = middle -1;
+					array.add(middle);
+				}
+				if(end > i) {
+					high = middle + 1;
+					array.add(middle);
+					middle = middle+1;
+				}
+
+			}
+
+			occs.add(middle, temp);
+
+			return array;
+		}
 	}
 	
 	/**
