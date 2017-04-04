@@ -139,7 +139,20 @@ public class LittleSearchEngine {
 	 * @param kws Keywords hash table for a document
 	 */
 	public void mergeKeyWords(HashMap<String,Occurrence> kws) {
-		// COMPLETE THIS METHOD
+		ArrayList<Occurrence> keywordList;
+
+		for (String key: kws.keySet()) {
+			Occurrence occurrence = kws.get(key);
+			if (keywordsIndex.containsKey(key)) {
+				keywordList = keywordsIndex.get(key);
+				keywordList.add(occurrence);
+				insertLastOccurrence(keywordList);
+			} else {
+				ArrayList<Occurrence> occurList = new ArrayList<Occurrence>();
+				occurList.add(occurrence);
+				keywordsIndex.put(key,occurList);
+			}
+		}
 	}
 	
 	/**
@@ -214,30 +227,29 @@ public class LittleSearchEngine {
 		ArrayList<Integer> array = new ArrayList<Integer>();
 		if (occs.size() == 1) {
 			return null;
-		}
-		else{
+		} else {
 			Occurrence temp = occs.get(occs.size() - 1);
 			occs.remove(occs.size() - 1);
 			int high = 0;
-			int low = occs.size()-1;
+			int low = occs.size() - 1;
 			int middle = 0;
-			int	i = temp.frequency;
-			while(high <= low) {
+			int i = temp.frequency;
+			while (high <= low) {
 				middle = (low + high) / 2;
 				Occurrence mid = occs.get(middle);
 				int end = mid.frequency;
-				if(end == i) {
+				if (end == i) {
 					array.add(middle);
 					break;
 				}
-				if(end < i) {
-					low = middle -1;
+				if (end < i) {
+					low = middle - 1;
 					array.add(middle);
 				}
-				if(end > i) {
+				if (end > i) {
 					high = middle + 1;
 					array.add(middle);
-					middle = middle+1;
+					middle = middle + 1;
 				}
 
 			}
