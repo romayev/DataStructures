@@ -124,7 +124,6 @@ public class LittleSearchEngine {
 				Occurrence occurrence = keywords.get(keyword);
 				occurrence.frequency++;
 			}
-
 		}
 		return keywords;
 	}
@@ -167,46 +166,78 @@ public class LittleSearchEngine {
 	 * @return Keyword (word without trailing punctuation, LOWER CASE)
 	 */
 
-	private boolean isPunctuation(char character) {
+	private boolean isPunctuation(Character character) {
+		if (character == null) {
+			return false;
+		}
 		return character == '.' || character == ',' || character == '?' || character == '!' || character == ':' || character == ';';
 	}
 
 	private Character getLastCharacter(String word) {
-		char ending = word.charAt(word.length()-1);
-
-		return ending;
+		if (word == null || word.length() == 0) {
+			return null;
+		}
+		return word.charAt(word.length()-1);
 	}
+
+//	private String trimLastCharacter(String word) {
+//		char ending = getLastCharacter(word);
+//		while (isPunctuation(ending)) {
+//				if (word.length() == 1) {
+//					return null;
+//				}
+//				word = word.substring(0, word.length() - 2);
+//				if (word.length() == 0) {
+//					break;
+//				}
+//				ending = word.charAt(word.length() - 1);
+//			}
+//			return word;
+//	}
 
 	private String trimLastCharacter(String word) {
-		char ending = getLastCharacter(word);
-		while (isPunctuation(ending)) {
-				if (word.length() == 1) {
-					return null;
-				}
-				word = word.substring(0, word.length() - 2);
-				if (word.length() == 0) {
-					break;
-				}
-				ending = word.charAt(word.length() - 1);
-			}
-			return word;
+		if (word == null || word.length() < 2) {
+			return "";
+		}
+		return word.substring(0, word.length() - 1);
 	}
 
+//	public String getKeyWord(String word) {
+//		word = word.trim();
+//		trimLastCharacter(word);
+//
+//		for (int i = 0; i < word.length(); i++) {
+//			char current = word.charAt(i);
+//			if (!Character.isLetter(current)) {
+//				return null;
+//			}
+//		}
+//
+//		word = word.toLowerCase();
+//
+//		if (noiseWords.get(word) != null) {
+//			return null;
+//		}
+//		return word;
+//	}
 	public String getKeyWord(String word) {
+		if (word == null) {
+			return null;
+		}
+		word = word.toLowerCase();
 		word = word.trim();
-		trimLastCharacter(word);
-		
+		while (word.length() > 0 && isPunctuation(getLastCharacter(word))) {
+			word = trimLastCharacter(word);
+		}
+		if (noiseWords.get(word) != null) {
+			return null;
+		}
+
 		for (int i = 0; i < word.length(); i++) {
 			char current = word.charAt(i);
 			if (!Character.isLetter(current)) {
 				return null;
 			}
-		}
-
-		word = word.toLowerCase();
-
-		if (noiseWords.get(word) != null) {
-			return null;
 		}
 		return word;
 	}
