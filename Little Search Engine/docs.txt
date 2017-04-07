@@ -1,2 +1,8 @@
 AliceCh1.txt
 WowCh1.txt
+AliceCh2.txt
+Economist.txt
+Economist2.txt
+Java.txt
+Assignment.txt
+DS.txt

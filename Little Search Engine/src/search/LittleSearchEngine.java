@@ -1,7 +1,10 @@
 package search;
 
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Scanner;
 
 /**
  * This class encapsulates an occurrence of a keyword in a document. It stores the
@@ -149,7 +152,7 @@ public class LittleSearchEngine {
 			} else {
 				ArrayList<Occurrence> occurList = new ArrayList<Occurrence>();
 				occurList.add(occurrence);
-				keywordsIndex.put(key,occurList);
+				keywordsIndex.put(key, occurList);
 			}
 		}
 	}
@@ -177,23 +180,8 @@ public class LittleSearchEngine {
 		if (word == null || word.length() == 0) {
 			return null;
 		}
-		return word.charAt(word.length()-1);
+		return word.charAt(word.length() - 1);
 	}
-
-//	private String trimLastCharacter(String word) {
-//		char ending = getLastCharacter(word);
-//		while (isPunctuation(ending)) {
-//				if (word.length() == 1) {
-//					return null;
-//				}
-//				word = word.substring(0, word.length() - 2);
-//				if (word.length() == 0) {
-//					break;
-//				}
-//				ending = word.charAt(word.length() - 1);
-//			}
-//			return word;
-//	}
 
 	private String trimLastCharacter(String word) {
 		if (word == null || word.length() < 2) {
@@ -202,24 +190,6 @@ public class LittleSearchEngine {
 		return word.substring(0, word.length() - 1);
 	}
 
-//	public String getKeyWord(String word) {
-//		word = word.trim();
-//		trimLastCharacter(word);
-//
-//		for (int i = 0; i < word.length(); i++) {
-//			char current = word.charAt(i);
-//			if (!Character.isLetter(current)) {
-//				return null;
-//			}
-//		}
-//
-//		word = word.toLowerCase();
-//
-//		if (noiseWords.get(word) != null) {
-//			return null;
-//		}
-//		return word;
-//	}
 	public String getKeyWord(String word) {
 		if (word == null) {
 			return null;
@@ -229,10 +199,12 @@ public class LittleSearchEngine {
 		while (word.length() > 0 && isPunctuation(getLastCharacter(word))) {
 			word = trimLastCharacter(word);
 		}
+		if (word.length() == 0) {
+			return null;
+		}
 		if (noiseWords.get(word) != null) {
 			return null;
 		}
-
 		for (int i = 0; i < word.length(); i++) {
 			char current = word.charAt(i);
 			if (!Character.isLetter(current)) {
@@ -306,8 +278,19 @@ public class LittleSearchEngine {
 	 *         the result is null.
 	 */
 	public ArrayList<String> top5search(String kw1, String kw2) {
-		// COMPLETE THIS METHOD
-		// THE FOLLOWING LINE HAS BEEN ADDED TO MAKE THE METHOD COMPILE
-		return null;
+		ArrayList<Occurrence> firstList = keywordsIndex.get(kw1);
+		ArrayList<Occurrence> secondList = keywordsIndex.get(kw2);
+		ArrayList<String> finalList = new ArrayList<String>();
+		if (firstList != null) {
+			for (Occurrence occurrence: firstList) {
+				finalList.add(occurrence.document);
+			}
+		}
+		if (secondList != null) {
+			for (Occurrence occurrence: secondList) {
+				finalList.add(occurrence.document);
+			}
+		}
+		return finalList;
 	}
 }
