@@ -213,7 +213,8 @@ public class LittleSearchEngine {
 		}
 		return word;
 	}
-	
+
+
 	/**
 	 * Inserts the last occurrence in the parameter list in the correct position in the
 	 * same list, based on ordering occurrences on descending frequencies. The elements
@@ -263,14 +264,71 @@ public class LittleSearchEngine {
 		}
 	}
 	
+	private void add(String document, ArrayList<String> array) {
+		if (array.isEmpty() || !array.get(array.size() -  1).equals(document)) {
+			System.out.println("Adding '" + document + "'");
+			array.add(document);
+		}
+	}
+	private ArrayList<String> createSortedList(ArrayList<Occurrence> firstList, ArrayList<Occurrence> secondList) {
+		ArrayList<String> finalList = new ArrayList<String>();
+		int firstIndex = 0;
+		int secondIndex = 0;
+		String one;
+		String two;
+		Occurrence firstListOccurence;
+		Occurrence secondListOccurence;
+
+		int size1 = firstList.size();
+		int size2 = secondList.size();
+		boolean atEndofFirst = size1 == 0;
+		boolean atEndofSecond = size2 == 0;
+
+		while (finalList.size() < 5 && !(atEndofFirst && atEndofSecond)) {
+			firstListOccurence = firstList.get(firstIndex);
+			one = firstListOccurence.document;
+			secondListOccurence = secondList.get(secondIndex);
+			two = secondListOccurence.document;
+
+			System.out.println("one: '" + firstListOccurence + "' two: " + secondListOccurence + "'");
+			if (atEndofFirst) {
+				add(two, finalList);
+				firstIndex++;
+			} else if (atEndofSecond) {
+				add(one, finalList);
+				secondIndex++;
+			} else if (one.equals(two)) {
+				add(one, finalList);
+				firstIndex++;
+				secondIndex++;
+			} else if (firstListOccurence.frequency > secondListOccurence.frequency) {
+				add(one, finalList);
+				firstIndex++;
+			} else if (firstListOccurence.frequency  < secondListOccurence.frequency) {
+				add(two, finalList);
+				secondIndex++;
+			}
+			if (secondIndex == size2 - 1) {
+				secondIndex--;
+				atEndofFirst = true;
+			}
+
+			if (firstIndex == size1 - 1) {
+				firstIndex--;
+				atEndofSecond = true;
+			}
+		}
+		return finalList;
+	}
+
 	/**
 	 * Search result for "kw1 or kw2". A document is in the result set if kw1 or kw2 occurs in that
 	 * document. Result set is arranged in descending order of occurrence frequencies. (Note that a
 	 * matching document will only appear once in the result.) Ties in frequency values are broken
 	 * in favor of the first keyword. (That is, if kw1 is in doc1 with frequency f1, and kw2 is in doc2
-	 * also with the same frequency f1, then doc1 will appear before doc2 in the result. 
+	 * also with the same frequency f1, then doc1 will appear before doc2 in the result.
 	 * The result set is limited to 5 entries. If there are no matching documents, the result is null.
-	 * 
+	 *
 	 * @param kw1 First keyword
 	 * @param kw1 Second keyword
 	 * @return List of NAMES of documents in which either kw1 or kw2 occurs, arranged in descending order of
@@ -280,17 +338,27 @@ public class LittleSearchEngine {
 	public ArrayList<String> top5search(String kw1, String kw2) {
 		ArrayList<Occurrence> firstList = keywordsIndex.get(kw1);
 		ArrayList<Occurrence> secondList = keywordsIndex.get(kw2);
-		ArrayList<String> finalList = new ArrayList<String>();
-		if (firstList != null) {
-			for (Occurrence occurrence: firstList) {
-				finalList.add(occurrence.document);
-			}
-		}
-		if (secondList != null) {
-			for (Occurrence occurrence: secondList) {
-				finalList.add(occurrence.document);
-			}
-		}
+		ArrayList<String> finalList = createSortedList(firstList, secondList);
+//		int counter;
+//		if (firstList != null) {
+//			counter = 5;
+//			while (counter != 0) {
+//			for (Occurrence occurrence: firstList) {
+//					finalList.add(occurrence.document);
+//					counter--;
+//				}
+//			}
+//		}
+//		if (secondList != null) {
+//			counter = 5;
+//			while (counter != 0) {
+//				for (Occurrence occurrence: secondList) {
+//					finalList.add(occurrence.document);
+//					counter--;
+//				}
+//			}
+//		}
+//		createSortedList(finalList, secondList);
 		return finalList;
 	}
 }
