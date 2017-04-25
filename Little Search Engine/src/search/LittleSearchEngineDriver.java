@@ -1,6 +1,9 @@
 package search;
 
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 
 /**
@@ -21,9 +24,24 @@ public class LittleSearchEngineDriver {
         }   catch (FileNotFoundException e) {
             System.out.println("File does not exist");
             System.out.println(e);
+            performQueries(engine);
+
         }
     }
+    static BufferedReader keyboard = new BufferedReader(new InputStreamReader(System.in));
+    
+    static void performQueries(LittleSearchEngine engine) throws IOException {
+        System.out.print("\nEnter two keywords or quit to stop => ");
+        String schedule = keyboard.readLine();
+        while (!schedule.equals("quit")) {
+            StringTokenizer st = new StringTokenizer(schedule);
 
+            String first = st.nextToken();
+            String second = st.nextToken();
+            System.out.println(engine.top5search(first, second));
+
+        }
+    }
     private static void print(LittleSearchEngine engine) {
        System.out.println("Number of keywords: " + engine.keywordsIndex.size());
         for (Map.Entry<String, ArrayList<Occurrence>> entry : engine.keywordsIndex.entrySet()) {
