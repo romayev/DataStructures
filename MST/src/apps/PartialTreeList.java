@@ -134,7 +134,20 @@ public class PartialTreeList implements Iterable<PartialTree> {
 
     private boolean searchTree(Vertex vertex, PartialTree Tree)
     {
-   
+        while(vertex != null)
+        {
+            if(vertex == Tree.getRoot())
+            {
+                return true;
+            }
+            if(vertex.equals(vertex.parent))
+            {
+                return false;
+            }
+
+            vertex = vertex.parent;
+        }
+        return false;
     }
     /**
      * Gives the number of trees in this list
