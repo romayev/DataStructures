@@ -7,7 +7,7 @@ import java.util.*;
 /**
  * A weighted, undirected graph, stored in adjacency linked lists format.
  */
-public class Graph {
+public class  Graph {
       
 	/**
      * List of vertices in graph.

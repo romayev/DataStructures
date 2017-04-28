@@ -12,33 +12,32 @@ public class MST {
 	 * @return The initial partial tree list
 	 */
 	public static PartialTreeList initialize(Graph graph) {
-
 		PartialTreeList list = new PartialTreeList();
 		Vertex[] vertex = graph.vertices;
-		PartialTree Tree;
+		PartialTree tree;
 		boolean[] visited = new boolean[vertex.length];
-		PartialTree.Arc arc = null;
+		PartialTree.Arc arc;
 		int counter = 0;
 
 		for (int i = 0; i < vertex.length; i++) {
 			Vertex.Neighbor neighbor = vertex[i].neighbors;
-			Tree = new PartialTree(vertex[i]);
+			tree = new PartialTree(vertex[i]);
 			visited[i] = true;
-			System.out.println(vertex[i]);
-			MinHeap<PartialTree.Arc> P = Tree.getArcs(); // associating with P.
-
+			//System.out.println("Vertex[" + i + "]: " + vertex[i]);
+			MinHeap<PartialTree.Arc> pTreeHeap = tree.getArcs(); // associating with P.
 			while (neighbor != null) {
 				arc = new PartialTree.Arc(vertex[i], neighbor.vertex, neighbor.weight);
-				P.insert(arc);
-				P.siftDown(counter);
+				//System.out.println("Arc: " + arc);
+				pTreeHeap.insert(arc);
+				pTreeHeap.siftDown(counter);
+				//System.out.println("pTreeHeap: " + pTreeHeap);
 				neighbor = neighbor.next;
 			}
-			if (visited[i] == true) {
-				list.append(Tree);
+			if (visited[i]) {
+				list.append(tree);
 			}
 			counter++;
 		}
-
 		return list;
 	}
 

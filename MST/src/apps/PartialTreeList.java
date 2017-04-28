@@ -76,13 +76,27 @@ public class PartialTreeList implements Iterable<PartialTree> {
      * @return The tree that is removed from the front
      * @throws NoSuchElementException If the list is empty
      */
-    public PartialTree remove() 
-    throws NoSuchElementException {
-    		
-    		/* COMPLETE THIS METHOD */
-    	
-    		return null;
-    }
+    public PartialTree remove()
+
+	throws NoSuchElementException {
+		if (rear == null) {
+			throw new NoSuchElementException();
+		} else {
+		    
+			Node node;
+			size--;
+
+			if (rear.next == rear) {
+				node = rear;
+				rear = null;
+				return node.tree;
+			} else {
+				node = rear.next;
+				rear.next = rear.next.next;
+				return node.tree;
+			}
+		}
+	}
 
     /**
      * Removes the tree in this list that contains a given vertex.
