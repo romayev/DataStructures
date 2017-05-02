@@ -101,47 +101,47 @@ public class PartialTreeList implements Iterable<PartialTree> {
      * @return The tree that is removed
      * @throws NoSuchElementException If there is no matching tree
      */
-    public PartialTree removeTreeContaining(Vertex vertex) 
-    throws NoSuchElementException {
+    public PartialTree removeTreeContaining(Vertex vertex) throws NoSuchElementException {
         if (rear == null) {
             throw new NoSuchElementException();
         }
-        PartialTree removedTree = null;
-        Node previous = rear;
-        Node pointer = rear.next;
-        int counter = 1;
-        do {
-            if (searchTree(vertex, pointer.tree) == true) {
-                if (pointer == rear) {
-                    removedTree = pointer.tree;
-                    previous.next = rear.next;
-                    rear = previous;
-                    size--;
-                    return removedTree;
-                } else {
-                    removedTree = pointer.tree;
-                    previous.next = pointer.next;
-                    size--;
-                    return removedTree;
-                }
+
+        for (PartialTree tree: this) {
+            if (searchTree(tree, vertex)) {
+              removeTree(tree);
+              return tree;
             }
-            previous = pointer;
-            pointer = pointer.next;
-            counter++;
-        } while (counter < size);
-        return removedTree;
+        }
+        return null;
     }
 
-    private boolean searchTree(Vertex vertex, PartialTree Tree)
-    {
-        while(vertex != null)
-        {
-            if(vertex == Tree.getRoot())
-            {
+    private void removeTree(PartialTree tree) {
+        if (tree.getRoot() == null) {
+            throw new NoSuchElementException();
+        }
+        Node current = rear.next;
+        Node previous = rear;
+        do {
+            if (current.tree == tree) {
+                previous.next = current.next;
+                if (current == rear) {
+                    rear = previous;
+                }
+                size--;
+                break;
+            }
+            previous = current;
+            current = current.next;
+        }  while (current != rear.next);
+    }
+
+
+    private boolean searchTree(PartialTree tree, Vertex vertex) {
+        while (vertex != null) {
+            if (vertex == tree.getRoot()) {
                 return true;
             }
-            if(vertex.equals(vertex.parent))
-            {
+            if (vertex.equals(vertex.parent)) {
                 return false;
             }
 
@@ -149,6 +149,7 @@ public class PartialTreeList implements Iterable<PartialTree> {
         }
         return false;
     }
+
     /**
      * Gives the number of trees in this list
      * 

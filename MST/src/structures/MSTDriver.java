@@ -24,11 +24,22 @@ public class MSTDriver {
             printTreeList(list);
             System.out.println();
 
+            Iterator<PartialTree> iterator = list.iterator();
+            iterator.next();
+            iterator.next();
+            iterator.next();
+            iterator.next();
+
+            PartialTree tree = list.removeTreeContaining(iterator.next().getRoot());
+            //iterator.next();
+            System.out.println("Removed tree: " + tree);
+            printTreeList(list);
+
         } catch (IOException exception) { System.out.print("Excepetion encountered"); }
     }
 
     private static void printTreeList(PartialTreeList list) {
-        for (PartialTree tree : list) {
+        for (PartialTree tree: list) {
             System.out.println(tree);
         }
     }

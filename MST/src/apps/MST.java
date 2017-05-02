@@ -49,40 +49,6 @@ public class MST {
 	 */
 	public static ArrayList<PartialTree.Arc> execute(PartialTreeList ptlist) {
 
-		ArrayList<PartialTree.Arc> arrayList = new ArrayList();
-
-		while (ptlist.size() > 1) {
-			PartialTree firstRemoval = ptlist.remove();
-			PartialTree.Arc PQX;
-			PartialTree.Arc storeArc = firstRemoval.getArcs().getMin();
-			Vertex v2 = storeArc.v2;
-			while(compare(v2, firstRemoval) == true) {
-				storeArc = firstRemoval.getArcs().getMin();
-				v2 = storeArc.v2;
-			}
-			PQX = firstRemoval.getArcs().deleteMin();
-			PartialTree PTY = ptlist.removeTreeContaining(PQX.v2);
-			firstRemoval.merge(PTY);
-			arrayList.add(PQX);
-			ptlist.append(firstRemoval);
-		}
-		return arrayList;
-	}
-
-	private static boolean compare(Vertex v2, PartialTree PTX)
-	{
-		while(v2 != null)
-		{
-			if(PTX.getRoot() == v2)
-			{
-				return true;
-			}
-			if(v2.equals(v2.parent))
-			{
-				return false;
-			}
-			v2 = v2.parent;
-		}
-		return false;
+		return null;
 	}
 }
