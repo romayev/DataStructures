@@ -47,7 +47,7 @@ public class IntNode {
                     front = node;
                     break;
                 }
-                prev.next = node;
+                prev.next = node;                   
             }
             prev = current;
             current = current.next;
@@ -57,7 +57,7 @@ public class IntNode {
 
     public static IntNode addBeforeLast(IntNode front, int item) {
         IntNode current = front;
-        // I'm the only one here cute :) (current is last)
+        //  (current is last)
         if (current.next == null) {
             IntNode node = new IntNode(item, current);
             return node;
