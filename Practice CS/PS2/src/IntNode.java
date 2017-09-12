@@ -13,6 +13,32 @@ public class IntNode {
         return data + "";
     }
 
+    public static final Int[] list = new int[] {1, 2, 3, 4, 5, 6};
+
+
+    puublic static void main(String[] args) {
+        IntNode list = createList(list);
+        System.out.println(printList(list));
+    }
+
+    public static void printList(IntNode front) {
+        IntNode current = front;
+        while (current != null) {
+            System.out.print(current);
+            current = current.next;
+        }
+        System.out.println();
+    }
+
+    private static IntNode createList(int[] array) {
+        IntNode node = null;
+        for (int i = array.length - 1; i >= 0; i--) {
+            int data = array[i];
+            node = new IntNode(data, node);
+        }
+        return node;
+    }
+
     public static IntNode addBefore(IntNode front, int target, int newItem) {
         IntNode previous = null;
         IntNode current = front;
