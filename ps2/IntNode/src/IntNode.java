@@ -180,7 +180,9 @@ public class IntNode {
 //        System.out.println("Adding 99 before 100");
 //        IntNode oneOnly = new IntNode(100, null);
 //        printList(oneOnly);
-//        oneOnly = addBefore(oneOnly, 100, 99);
+//        oneOnly = addBefore(oneOnly,  System.out.println("Creating list");
+//        IntNode front = createList();
+//        printList(front);100, 99);
 //        printList(oneOnly);
 //
 //        System.out.println("Creating list");

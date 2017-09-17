@@ -23,7 +23,7 @@ public class IntNode {
     public static void printList(IntNode front) {
         IntNode current = front;
         while (current != null) {
-            System.out.print(current);
+            System.out.print(current.toString());
             current = current.next;
         }
         System.out.println();
