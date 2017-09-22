@@ -19,7 +19,7 @@ public class DLLNode {
         if (this.prev != null) {
             prev = this.prev.data;
         }
-        return "[" + prev + "<-" + data + "->" + next + "] ";
+        return "[" + prev + " <- " + data + " -> " + next + "] ";
     }
 
 }

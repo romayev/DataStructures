@@ -1,5 +1,5 @@
 public class LinkedList {
-    private static final String[] SEASONS = new String[] {"winter", "spring", "summer", "fall"};
+    private static final String[] seasons = new String[] {"winter", "spring", "summer", "fall"};
     private Node rear;
     public LinkedList(Node rear) {
         this.rear = rear;
@@ -62,11 +62,10 @@ public class LinkedList {
     }
 
     public static void main(String[] args) {
-        LinkedList list = new LinkedList(SEASONS);
-        System.out.println(list);
+        LinkedList list = new LinkedList(seasons);
+        System.out.println("Seasons: " + list);
 
-        Node reverse = Reverse(SEASONS);
-        System.out.println(reverse);
+
     }
 }
 

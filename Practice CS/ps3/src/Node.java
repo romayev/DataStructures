@@ -10,6 +10,6 @@ public class Node {
     @Override
     public String toString() {
         String next = (this.next != null) ? String.valueOf(this.next.data) : "null";
-        return data + "->" + next + " ";
+        return data + " -> " + next + " ";
     }
 }
