@@ -32,7 +32,16 @@ public class LinkedList {
             }
         }
         Node current = rear.next;
-        Node prev = rear;
+        Node prev = rear;     //setting up 2 nodes to cycle through list
+        while (current != rear) {
+            if (current.data.equals(target)) {
+                prev.next = current.next;  //removing target in middle
+                return true;
+            }
+            prev = current;
+            current = current.next;   //cycling through
+        }
+        return false;   //will only return false if target isn't found in previous while loop
     }
 
     public String toString() {
