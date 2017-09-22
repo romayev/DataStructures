@@ -20,6 +20,21 @@ public class LinkedList {
         } this.rear = rear;
     }
 
+    public boolean delete(String target) {
+        if (rear == null) { return false; }
+        if (rear.next == rear) {  //one node
+            if (rear.data.equals(target)) {
+                rear = null;
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        Node current = rear.next;
+        Node prev = rear;
+    }
+
     public String toString() {
         if (rear == null) return "{}";
 
