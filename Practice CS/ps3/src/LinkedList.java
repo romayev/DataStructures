@@ -61,6 +61,9 @@ public class LinkedList {
     public static void main(String[] args) {
         LinkedList list = new LinkedList(seasons);
         System.out.println("Seasons: " + list);
+//        boolean delete = list.delete("winter");
+        boolean delete = list.delete("hello");
+        System.out.print(delete);
 
 
 
