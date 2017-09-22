@@ -60,19 +60,30 @@ public class LinkedList {
 
     public boolean addAfter(String newItem, String afterItem) {
         Node newNode = new Node(newItem, null);
-        if (rear.data == afterItem) {
-           rear.next = newNode;
-           newNode.next = rear;
+        if (rear.next == rear) {
+            if (rear.data.equals(afterItem)) {
+                newNode.next = rear;
+                rear.next = newNode;
+                return true;
+            } return false;
+        }
+        Node prev = rear;
+        Node current = rear.next;
+
+        if (prev.data.equals(afterItem)) {
+            newNode.next = current;
+            prev.next = newNode;
            return true;
         }
-        if (rear.next == null) {
-            return false;
+        while (current != rear) {
+            if (current.data.equals(afterItem)) {
+                newNode.next = current.next;
+                current.next = newNode;
+                return true;
+            }
+            current = current.next;
         }
-        Node current = rear.next;
-        Node prev = rear;
-        while (current!= rear) {
-            
-        }
+        return false;
 
     }
     
@@ -80,8 +91,10 @@ public class LinkedList {
         LinkedList list = new LinkedList(seasons);
         System.out.println("Seasons: " + list);
 //        boolean delete = list.delete("winter");
-        boolean delete = list.delete("hello");
-        System.out.print(delete);
+//        boolean delete = list.delete("hello");
+//        System.out.print(delete);
+        list.addAfter("hi", "winter");
+        System.out.println(list);
 
 
 

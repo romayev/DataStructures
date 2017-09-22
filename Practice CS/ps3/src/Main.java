@@ -57,6 +57,11 @@ public class Main {
         } System.out.println();
     }
 
+    public static Node merge(Node frontL1, Node frotnL2) {
+
+     return null;
+    }
+    
     public static void main(String[] args) {
         DLLNode front = createList(numbers);
         printList(front);
