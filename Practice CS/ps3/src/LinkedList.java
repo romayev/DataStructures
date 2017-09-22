@@ -86,7 +86,7 @@ public class LinkedList {
         return false;
 
     }
-    
+
     public static void main(String[] args) {
         LinkedList list = new LinkedList(seasons);
         System.out.println("Seasons: " + list);

@@ -1,5 +1,6 @@
 public class Main {
     private static final String[] numbers = {"one", "two", "three", "four", "five"};
+    private static final String[] seasons = new String[] {"winter", "spring", "summer", "fall"};
 
     public static DLLNode moveToFront(DLLNode front, DLLNode target) {
         if (target == null || front == null){
@@ -57,21 +58,45 @@ public class Main {
         } System.out.println();
     }
 
-    public static Node merge(Node frontL1, Node frotnL2) {
+    public static Node merge(Node frontL1, Node frontL2) {
 
      return null;
     }
-    
+
+    private static Node createLList(String[] array) {
+        Node front = null;
+        Node rear = null;
+        for (int i = array.length - 1; i >= 0; i-- ) {
+            front = new Node(array[i], front);
+            if (i == array.length - 1) {
+                rear = front;
+            }
+        }
+        if (rear != null) {
+            rear.next = front;
+        }
+        return rear;
+    }
+
     public static void main(String[] args) {
-        DLLNode front = createList(numbers);
-        printList(front);
-        System.out.println("Moving " + front.next.next + " to front");
-        front = moveToFront(front, front.next.next);
-        printList(front);
-        System.out.println("Reverse:");
-        DLLNode test = reverse(front);
-        printList(test);
-        
+//        DLLNode front = createList(numbers);
+//        printList(front);
+//        System.out.println("Moving " + front.next.next + " to front");
+//        front = moveToFront(front, front.next.next);
+//        printList(front);
+//        System.out.println("Reverse:");
+//        DLLNode test = reverse(front);
+//        printList(test);
+
+        LinkedList list = new LinkedList(seasons);
+        System.out.println("Seasons: " + list);
+//        boolean delete = list.delete("winter");
+//        boolean delete = list.delete("hello");
+//        System.out.print(delete);
+//        list.addAfter("hi", "winter");
+//        System.out.println(list);
+
+
 
     }
 }
