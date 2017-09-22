@@ -57,6 +57,24 @@ public class LinkedList {
 
         return result;
     }
+
+    public boolean addAfter(String newItem, String afterItem) {
+        Node newNode = new Node(newItem, null);
+        if (rear.data == afterItem) {
+           rear.next = newNode;
+           newNode.next = rear;
+           return true;
+        }
+        if (rear.next == null) {
+            return false;
+        }
+        Node current = rear.next;
+        Node prev = rear;
+        while (current!= rear) {
+            
+        }
+
+    }
     
     public static void main(String[] args) {
         LinkedList list = new LinkedList(seasons);
