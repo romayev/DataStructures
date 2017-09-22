@@ -1,5 +1,5 @@
 public class Main {
-    private static final String[] NUMBERS = {"one", "two", "three", "four", "five"};
+    private static final String[] numbers = {"one", "two", "three", "four", "five"};
 
     public static DLLNode moveToFront(DLLNode front, DLLNode target) {
         if (target == null || front == null){
@@ -22,18 +22,19 @@ public class Main {
         DLLNode prev = null;
         DLLNode current;
         DLLNode front = null;
-        for (int i = 0; i < list.length; i++) {
-            String data = list[i];
+        for (int i = 0; i< list.length; i++) {
+            String number = list[i];
             if (i == 0) {
-                prev = new DLLNode(data, null, null);
+                prev = new DLLNode(number, null, null);
                 front = prev;
             } else {
-                current = new DLLNode(data, null, prev);
+                current = new DLLNode(number, null, prev);
                 prev.next = current;
                 prev = current;
             }
         }return front;
     }
+
     public static DLLNode reverse(DLLNode front) {
         DLLNode current = front;
         while (current != null){
@@ -43,8 +44,7 @@ public class Main {
             current.prev = next;
             if (next == null) {
                 front = current;
-            }
-            current = next;
+            } current = next;
         }return front;
     }
 
@@ -58,8 +58,7 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        System.out.println("List:");
-        DLLNode front = createList(NUMBERS);
+        DLLNode front = createList(numbers);
         printList(front);
         System.out.println("Moving " + front.next.next + " to front");
         front = moveToFront(front, front.next.next);
@@ -67,7 +66,7 @@ public class Main {
         System.out.println("Reverse:");
         DLLNode test = reverse(front);
         printList(test);
-
+        
 
     }
 }

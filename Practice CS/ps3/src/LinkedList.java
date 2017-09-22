@@ -33,37 +33,12 @@ public class LinkedList {
 
         return result;
     }
-
-    public boolean delete(String target) {
-        if (rear == null) {
-            return false;
-        }
-        if (rear.next == rear) {
-            if (rear.data.equals(target)) {
-                rear = null;
-                return true;
-            }
-            else {
-                return false;
-            }
-        }
-        Node current = rear.next;
-        Node prev = rear;
-
-        while (current != rear) {
-            if (current.data.equals(target)) {
-                prev.next = current.next;
-                return true;
-            }
-            prev = current;
-            current = current.next;
-        }
-        return false;
-    }
-
+    
     public static void main(String[] args) {
         LinkedList list = new LinkedList(seasons);
         System.out.println("Seasons: " + list);
+
+
 
 
     }
