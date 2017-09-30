@@ -1,11 +1,25 @@
 public class LinkedList {
-    private static final String[] seasons = new String[] {"winter", "spring", "summer", "fall"};
+
     private Node rear;
     public LinkedList(Node rear) {
         this.rear = rear;
     }
 
-    private LinkedList(String[] array) {
+    public static Node deleteAll(Node front, String target) {
+        Node current = front;
+        Node prev;
+        while (current != null) {
+            if (current.data == target) {
+                current = current.next;
+                return front;
+            }
+
+            return null;
+        }
+        return front;
+    }
+    
+    public LinkedList(String[] array) {
         Node front = null;
         Node rear = null;
 
@@ -84,20 +98,6 @@ public class LinkedList {
             current = current.next;
         }
         return false;
-
-    }
-
-    public static void main(String[] args) {
-        LinkedList list = new LinkedList(seasons);
-        System.out.println("Seasons: " + list);
-//        boolean delete = list.delete("winter");
-//        boolean delete = list.delete("hello");
-//        System.out.print(delete);
-        list.addAfter("hi", "winter");
-        System.out.println(list);
-
-
-
 
     }
 }

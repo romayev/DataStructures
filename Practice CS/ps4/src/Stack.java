@@ -7,6 +7,6 @@ public class Stack {
     public Stack(){}
     public void push(String item){}
     public String pop() throws NoSuchElementException {}
-    public boolean isEmpty() {}
+    public boolean isEmpty() {return true;}
     
 }
