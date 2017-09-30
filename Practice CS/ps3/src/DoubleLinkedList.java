@@ -52,7 +52,8 @@ public class DoubleLinkedList {
             current.prev = next;
             if (next == null) {
                 front = current;
-            } current = next;
+            }
+            current = next;
         }
     }
 
