@@ -47,7 +47,7 @@ public class CLL <T> {
         do {
             System.out.print(current);
             current = current.next;
-        } while (current != rear);
+        } while (current != rear.next);
         System.out.println();
     }
 

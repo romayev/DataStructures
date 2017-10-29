@@ -20,6 +20,13 @@ public class Main {
         DLLQueue que = new DLLQueue(names);
         System.out.println(que.size());
         que.print();
+        System.out.println(que.peek());
+        que.dequeue();
+        que.print();
+        System.out.println("Size: " + que.size());
+        que.enqueue("kuzya");
+        que.print();
+        System.out.println("Size: " + que.size());
 
 
 //        Stack stack = new Stack(numbers);
