@@ -7,8 +7,9 @@ public class DLLQueue <T> {
     private CLL<T> CLL;
     private int size;
 
-    public DLLQueue() {
-        CLL = new CLL<T>();
+    public DLLQueue(T[] array) {
+        CLL = new CLL<T>(array);
+        size = array.length;
     }
 
     public void enqueue(T item) {
@@ -17,7 +18,8 @@ public class DLLQueue <T> {
     }
 
     public T peek() {
-        return (T) CLL.front;
+        
+        return (T) CLL.rear.next;
     }
 
     public T dequeue() throws NoSuchElementException {

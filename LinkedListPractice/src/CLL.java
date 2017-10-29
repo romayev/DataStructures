@@ -3,10 +3,9 @@
  */
 public class CLL <T> {
     Node rear;
-    Node front = rear.next;
     public CLL(){};
 
-    CLL(int[] array) {
+    CLL(T[] array) {
         Node front = null;
         Node curr = null;
         Node hold = null;
@@ -24,10 +23,11 @@ public class CLL <T> {
     }
 
     T deleteFirstNode() {
-        if (front == null) {
+        if (rear.next == rear) {
             return null;
         }
-        T value = (T) front.data;
+        T value = (T) rear.next.data;
+        Node front = rear.next;
         front = front.next;
         rear.next = front;
         return value;
@@ -36,22 +36,20 @@ public class CLL <T> {
     void addToEnd(T item) {
         Node<T> node = new Node<T>();
         node.data = item;
-        Node<T> last = rear;
-        if (last == null) {
-            front = node;
-        } else {
-            last.next = node;
-            last.next.next = front;
-        }
+        rear.next = node;
     }
 
     void printList() {
-        Node current = front;
-        while (current != rear) {
+        if (rear.next == rear) {
+            System.out.print(rear);
+        }
+        Node current = rear.next;
+        do {
             System.out.print(current);
             current = current.next;
-        }
+        } while (current != rear);
         System.out.println();
     }
+
 
 }

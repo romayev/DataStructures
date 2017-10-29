@@ -5,17 +5,21 @@ public class Main {
 
     public static void main(String[] args) {
         Main main = new Main();
-        Queue queue = new Queue(names);
-        System.out.println(queue.size());
-        queue.print();
-        System.out.print("dequeue: " + queue.dequeue());
-        System.out.println();
-        queue.print();
-        System.out.println(queue.size());
-        System.out.print("enqueue:");
-        queue.enqueue("Kuzya");
-        queue.print();
-        System.out.print(queue.size());
+//        Queue queue = new Queue(names);
+//        System.out.println(queue.size());
+//        queue.print();
+//        System.out.print("dequeue: " + queue.dequeue());
+//        System.out.println();
+//        queue.print();
+//        System.out.println(queue.size());
+//        System.out.print("enqueue:");
+//        queue.enqueue("Kuzya");
+//        queue.print();
+//        System.out.print(queue.size());
+
+        DLLQueue que = new DLLQueue(names);
+        System.out.println(que.size());
+        que.print();
 
 
 //        Stack stack = new Stack(numbers);
